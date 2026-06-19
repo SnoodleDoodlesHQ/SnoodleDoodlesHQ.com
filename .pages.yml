@@ -1,0 +1,296 @@
+media:
+  input: public/media
+  output: /media
+  rename: safe
+
+content:
+  - name: pages
+    label: Pages
+    type: collection
+    path: src/content/pages
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: description
+        label: Description
+        type: text
+      - name: heroTitle
+        label: Hero title
+        type: string
+      - name: heroText
+        label: Hero text
+        type: text
+      - name: contactImage
+        label: Contact side image
+        type: image
+        description: Used by the custom contact page.
+      - name: contactImageAlt
+        label: Contact image alt text
+        type: string
+      - name: formTitle
+        label: Contact form title
+        type: string
+      - name: formIntro
+        label: Contact form intro
+        type: text
+      - name: services
+        label: Contact service options
+        type: string
+        list: true
+        description: Used by the service dropdown on the contact page.
+      - name: heroKicker
+        label: Kicker
+        type: string
+      - name: emailPlaceholder
+        label: Homepage email placeholder
+        type: string
+      - name: heroBullets
+        label: Homepage bullet list
+        type: text
+        description: Put one bullet per line. Used on the homepage.
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+      - name: showInNav
+        label: Show in navigation
+        type: boolean
+        default: true
+      - name: navOrder
+        label: Navigation order
+        type: number
+        default: 99
+      - name: body
+        label: Page body
+        type: rich-text
+    view:
+      fields: [title, published, showInNav, navOrder]
+      primary: title
+      sort: [navOrder, title]
+      default:
+        sort: navOrder
+        order: asc
+
+  - name: portfolio
+    label: Portfolio
+    type: collection
+    path: src/content/portfolio
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: description
+        label: Short description
+        type: text
+      - name: image
+        label: Image
+        type: image
+      - name: link
+        label: Link
+        type: string
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+      - name: order
+        label: Display order
+        type: number
+        default: 99
+      - name: body
+        label: Notes
+        type: rich-text
+    view:
+      fields: [title, published, order]
+      primary: title
+      sort: [order, title]
+      default:
+        sort: order
+        order: asc
+
+  - name: products
+    label: Products
+    type: collection
+    path: src/content/products
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - name: title
+        label: Product title
+        type: string
+        required: true
+      - name: category
+        label: Category
+        type: select
+        options:
+          values: [stickers, prints, keychains-pins, apparel]
+      - name: price
+        label: Price
+        type: number
+      - name: shortDescription
+        label: Short description
+        type: text
+      - name: images
+        label: Product images
+        type: image
+        list:
+          min: 1
+        description: Add as many product images as needed. The first image is used on the shop card; all images are used in the popup carousel.
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+      - name: order
+        label: Display order
+        type: number
+        default: 99
+      - name: body
+        label: Product notes
+        type: rich-text
+    view:
+      fields: [title, category, price, published, order]
+      primary: title
+      sort: [order, title]
+      default:
+        sort: order
+        order: asc
+
+  - name: personalPosts
+    label: Personal posts
+    type: collection
+    path: src/content/personal
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: description
+        label: Short description
+        type: text
+      - name: date
+        label: Date
+        type: date
+      - name: type
+        label: Post type
+        type: select
+        options:
+          values: [image, video, text]
+        default: image
+      - name: image
+        label: Image
+        type: image
+        description: Used for image posts and as a fallback thumbnail for video/text posts.
+      - name: imageAlt
+        label: Image alt text
+        type: string
+      - name: youtubeId
+        label: YouTube video ID
+        type: string
+        description: Optional. Use this for YouTube embeds, for example dQw4w9WgXcQ.
+      - name: videoUrl
+        label: YouTube URL
+        type: string
+        description: Optional. Paste a YouTube URL if you do not want to manually enter the ID.
+      - name: size
+        label: Card size
+        type: select
+        options:
+          values: [small, medium, wide, tall, feature]
+        default: medium
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+      - name: order
+        label: Display order
+        type: number
+        default: 99
+      - name: body
+        label: Post body
+        type: rich-text
+    view:
+      fields: [title, type, published, order]
+      primary: title
+      sort: [order, date, title]
+      default:
+        sort: order
+        order: asc
+
+
+  - name: checkout
+    label: Checkout settings
+    type: collection
+    path: src/content/checkout
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - name: title
+        label: Page title
+        type: string
+        required: true
+      - name: description
+        label: Description
+        type: text
+      - name: heroTitle
+        label: Hero title
+        type: string
+      - name: heroText
+        label: Hero text
+        type: text
+      - name: paypalBusiness
+        label: PayPal business email or merchant ID
+        type: string
+        required: true
+      - name: currency
+        label: Currency code
+        type: string
+        default: GBP
+      - name: shippingFlatRate
+        label: Flat shipping
+        type: number
+        default: 0
+      - name: handlingFee
+        label: Handling fee
+        type: number
+        default: 0
+      - name: returnPath
+        label: Return path after PayPal
+        type: string
+        default: /contact-success/
+      - name: cancelPath
+        label: Cancel path from PayPal
+        type: string
+        default: /checkout/
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+      - name: body
+        label: Page notes
+        type: rich-text
+    view:
+      fields: [title, currency, paypalBusiness]
+      primary: title
+
+
+settings:
+  content:
+    merge: true

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">
+  <rect width="1200" height="1200" fill="#eef7e8"/>
+  <rect x="42" y="42" width="1116" height="1116" rx="16" stroke="#161616" stroke-width="4"/>
+  <path d="M74 110 C 210 72, 420 84, 520 112" stroke="#161616" stroke-width="4" stroke-linecap="round"/>
+  <path d="M900 108 C 960 90, 1080 84, 1120 114" stroke="#161616" stroke-width="4" stroke-linecap="round"/>
+  <text x="88" y="110" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="34" fill="#161616">Snoodle Doodles HQ</text>
+  <text x="86" y="180" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="88" fill="#161616">Tiny Frog</text>
+  <text x="86" y="255" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="66" fill="#161616">sticker pack</text>
+  <text x="84" y="315" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="34" fill="#404040">Sticker detail</text>
+
+<circle cx="220" cy="559" r="61" stroke="#161616" stroke-width="4" opacity="0.9"/>
+<circle cx="385" cy="604" r="82" stroke="#161616" stroke-width="4" opacity="0.9"/>
+<circle cx="579" cy="499" r="40" stroke="#161616" stroke-width="4" opacity="0.9"/>
+<circle cx="537" cy="447" r="62" stroke="#161616" stroke-width="4" opacity="0.9"/>
+<circle cx="828" cy="501" r="82" stroke="#161616" stroke-width="4" opacity="0.9"/>
+<rect x="120" y="360" width="960" height="690" rx="20" fill="#fffdf8" stroke="#161616" stroke-width="4"/>
+<rect x="353" y="444" width="77" height="143" rx="31" ry="41" fill="white" stroke="#161616" stroke-width="4" transform="rotate(-2 391.5 515.5)"/>
+<circle cx="373.5" cy="504.64" r="5" fill="#161616"/>
+<circle cx="409.5" cy="504.64" r="5" fill="#161616"/>
+<path d="M 365.5 530.64 Q 391.5 550.64 417.5 530.64" stroke="#161616" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M 353.5 472.64 Q 391.5 434.64 427.5 472.64" stroke="#161616" stroke-width="4" stroke-linecap="round" fill="none"/>
+<rect x="702" y="703" width="146" height="91" rx="53" ry="27" fill="white" stroke="#161616" stroke-width="4" transform="rotate(2 775.0 748.5)"/>
+<circle cx="757.0" cy="738.68" r="5" fill="#161616"/>
+<circle cx="793.0" cy="738.68" r="5" fill="#161616"/>
+<path d="M 749.0 764.68 Q 775.0 784.68 801.0 764.68" stroke="#161616" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M 737.0 706.68 Q 775.0 668.68 811.0 706.68" stroke="#161616" stroke-width="4" stroke-linecap="round" fill="none"/>
+<rect x="695" y="588" width="136" height="117" rx="25" ry="48" fill="white" stroke="#161616" stroke-width="4" transform="rotate(-2 763.0 646.5)"/>
+<circle cx="745.0" cy="636.16" r="5" fill="#161616"/>
+<circle cx="781.0" cy="636.16" r="5" fill="#161616"/>
+<path d="M 737.0 662.16 Q 763.0 682.16 789.0 662.16" stroke="#161616" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M 725.0 604.16 Q 763.0 566.16 799.0 604.16" stroke="#161616" stroke-width="4" stroke-linecap="round" fill="none"/>
+<rect x="564" y="519" width="139" height="98" rx="25" ry="39" fill="white" stroke="#161616" stroke-width="4" transform="rotate(-10 633.5 568.0)"/>
+<circle cx="615.5" cy="558.04" r="5" fill="#161616"/>
+<circle cx="651.5" cy="558.04" r="5" fill="#161616"/>
+<path d="M 607.5 584.04 Q 633.5 604.04 659.5 584.04" stroke="#161616" stroke-width="4" stroke-linecap="round" fill="none"/>
+<path d="M 595.5 526.04 Q 633.5 488.03999999999996 669.5 526.04" stroke="#161616" stroke-width="4" stroke-linecap="round" fill="none"/>
+<text x="86" y="1125" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="30" fill="#404040">Sample product image 4 of 4</text>
+<path d="M900 1090 C 970 1038, 1018 1156, 1114 1088" stroke="#161616" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>

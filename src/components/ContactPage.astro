@@ -1,0 +1,91 @@
+---
+const { page } = Astro.props;
+
+const heroTitle = page?.heroTitle ?? page?.title ?? 'Contact';
+const heroText = page?.heroText;
+const formTitle = page?.formTitle ?? 'Project enquiry';
+const formIntro = page?.formIntro ?? 'Send a few details and I will get back to you.';
+const contactImage = page?.contactImage ?? '/media/contact-side.svg';
+const contactImageAlt = page?.contactImageAlt ?? '';
+const services = page?.services?.length
+  ? page.services
+  : ['Animation', 'Character design', 'Art Direction'];
+---
+
+<section class="contact-page">
+  <section class="page-hero contact-hero">
+    <p class="scribble-kicker">Snoodle Doodles HQ</p>
+    <h1>{heroTitle}</h1>
+    {heroText && <p class="hero-text">{heroText}</p>}
+  </section>
+
+  <section class="contact-layout" aria-labelledby="contact-form-title">
+    <aside class="contact-side-card">
+      <div class="contact-image-frame">
+        <img src={contactImage} alt={contactImageAlt} loading="lazy" />
+      </div>
+
+      <div class="contact-markdown prose">
+        <slot />
+      </div>
+    </aside>
+
+    <form
+      class="contact-form-sketch"
+      name="contact"
+      method="POST"
+      action="/contact-success/"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+    >
+      <input type="hidden" name="form-name" value="contact" />
+
+      <p class="netlify-honeypot">
+        <label>
+          Do not fill this out:
+          <input name="bot-field" autocomplete="off" />
+        </label>
+      </p>
+
+      <div class="contact-form-heading">
+        <p class="scribble-kicker">Form mail</p>
+        <h2 id="contact-form-title">{formTitle}</h2>
+        <p>{formIntro}</p>
+      </div>
+
+      <div class="contact-form-grid">
+        <label>
+          <span>First name</span>
+          <input name="first-name" type="text" autocomplete="given-name" required />
+        </label>
+
+        <label>
+          <span>Last name</span>
+          <input name="last-name" type="text" autocomplete="family-name" required />
+        </label>
+
+        <label class="contact-field-wide">
+          <span>Email</span>
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+
+        <label class="contact-field-wide">
+          <span>Service</span>
+          <select name="service" required>
+            <option value="">Choose one</option>
+            {services.map((service) => (
+              <option value={service}>{service}</option>
+            ))}
+          </select>
+        </label>
+
+        <label class="contact-field-wide">
+          <span>Message</span>
+          <textarea name="message" rows="7" required></textarea>
+        </label>
+      </div>
+
+      <button class="contact-submit-button" type="submit">Send message</button>
+    </form>
+  </section>
+</section>

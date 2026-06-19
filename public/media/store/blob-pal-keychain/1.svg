@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">
+  <rect width="1200" height="1200" fill="#f2edff"/>
+  <rect x="44" y="44" width="1112" height="1112" rx="20" stroke="#161616" stroke-width="5"/>
+  <text x="88" y="130" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="42" fill="#161616">Snoodle Doodles HQ</text>
+  <text x="88" y="210" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="82" fill="#161616">Blob Pal Keychain</text>
+  <text x="90" y="274" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="36" fill="#444">Keychain / pin sample image 1</text>
+  
+  <circle cx="600" cy="545" r="245" fill="#fffefa" stroke="#161616" stroke-width="5"/>
+  <circle cx="600" cy="240" r="48" fill="#fffefa" stroke="#161616" stroke-width="5"/>
+  <path d="M560 240 C560 206 640 206 640 240" stroke="#161616" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M476 494 C540 408 672 412 734 498 C806 598 720 716 596 712 C474 708 406 588 476 494Z" fill="#fffefa" stroke="#161616" stroke-width="5"/>
+  <circle cx="558" cy="558" r="11" fill="#161616"/>
+  <circle cx="646" cy="552" r="11" fill="#161616"/>
+  <path d="M560 622 Q604 654 652 616" stroke="#161616" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+  <path d="M116 1010 C238 958 390 984 510 1038 C650 1102 832 1078 1008 1002" stroke="#161616" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <circle cx="1032" cy="214" r="22" stroke="#161616" stroke-width="5"/>
+  <circle cx="1082" cy="252" r="12" fill="#161616"/>
+</svg>

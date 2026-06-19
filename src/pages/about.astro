@@ -1,0 +1,20 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AboutPage from '../components/AboutPage.astro';
+
+const page = await getEntry('pages', 'about');
+
+if (!page || page.data.published === false) {
+  throw new Error('Missing published about page content at src/content/pages/about.md');
+}
+
+const { Content } = await render(page);
+const title = `${page.data.title} | Snoodle Doodles HQ`;
+---
+
+<BaseLayout title={title} description={page.data.description}>
+  <AboutPage page={page}>
+    <Content />
+  </AboutPage>
+</BaseLayout>

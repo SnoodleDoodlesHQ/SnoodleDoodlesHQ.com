@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">
+  <rect width="1200" height="1200" fill="#edf0f0"/>
+  <rect x="42" y="42" width="1116" height="1116" rx="16" stroke="#161616" stroke-width="4"/>
+  <path d="M74 110 C 210 72, 420 84, 520 112" stroke="#161616" stroke-width="4" stroke-linecap="round"/>
+  <path d="M900 108 C 960 90, 1080 84, 1120 114" stroke="#161616" stroke-width="4" stroke-linecap="round"/>
+  <text x="88" y="110" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="34" fill="#161616">Snoodle Doodles HQ</text>
+  <text x="86" y="180" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="88" fill="#161616">Wobble Star</text>
+  <text x="86" y="255" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="66" fill="#161616">hoodie</text>
+  <text x="84" y="315" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="34" fill="#404040">Back view</text>
+
+<circle cx="676" cy="819" r="69" stroke="#161616" stroke-width="4" opacity="0.9"/>
+<circle cx="735" cy="608" r="36" stroke="#161616" stroke-width="4" opacity="0.9"/>
+<circle cx="577" cy="402" r="48" stroke="#161616" stroke-width="4" opacity="0.9"/>
+<circle cx="446" cy="378" r="28" stroke="#161616" stroke-width="4" opacity="0.9"/>
+<rect x="130" y="340" width="940" height="720" rx="28" fill="#fffdf8" stroke="#161616" stroke-width="4"/>
+<path d="M450 430 L525 380 L675 380 L750 430 L834 520 L788 560 L748 520 L748 880 Q 748 930 698 930 L502 930 Q 452 930 452 880 L452 520 L412 560 L366 520 Z" fill="#f5f2ea" stroke="#161616" stroke-width="4"/>
+<path d="M534 388 Q 600 462 666 388" stroke="#161616" stroke-width="4" fill="none"/>
+<path d="M548 470 Q 602 520 652 470" stroke="#161616" stroke-width="4" fill="none"/>
+<circle cx="600" cy="700" r="120" stroke="#161616" stroke-width="5" fill="none"/>
+<path d="M546 704 Q 602 752 658 704" stroke="#161616" stroke-width="5" fill="none"/>
+<circle cx="568" cy="664" r="8" fill="#161616"/><circle cx="632" cy="664" r="8" fill="#161616"/>
+<text x="86" y="1125" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="30" fill="#404040">Sample product image 2 of 4</text>
+<path d="M900 1090 C 970 1038, 1018 1156, 1114 1088" stroke="#161616" stroke-width="4" fill="none" stroke-linecap="round"/>
+</svg>

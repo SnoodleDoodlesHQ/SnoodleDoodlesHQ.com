@@ -1,0 +1,524 @@
+---
+const { page, products = [] } = Astro.props;
+
+const heroTitle = page?.heroTitle ?? 'Shop';
+const heroText = page?.heroText ?? 'A responsive wall of sample products with a hand-drawn feel.';
+const heroKicker = page?.heroKicker ?? 'Store';
+
+const categoryFilters = [
+  { value: 'all', label: 'All' },
+  { value: 'stickers', label: 'Stickers' },
+  { value: 'prints', label: 'Prints' },
+  { value: 'keychains-pins', label: 'Keychains / pins' },
+  { value: 'apparel', label: 'Apparel' },
+];
+
+const categoryLabels = {
+  stickers: 'Stickers',
+  prints: 'Prints',
+  'keychains-pins': 'Keychains / pins',
+  apparel: 'Apparel',
+};
+
+const getCategoryLabel = (category) => categoryLabels[category] ?? category;
+
+const clientProducts = products.map((product) => ({
+  id: product.id,
+  title: product.title,
+  category: product.category,
+  categoryLabel: getCategoryLabel(product.category),
+  price: Number(product.price),
+  shortDescription: product.shortDescription,
+  images: product.images,
+}));
+---
+
+<section class="shop-page">
+  <section class="page-hero shop-hero">
+    <div class="shop-hero-copy">
+      <p class="scribble-kicker">{heroKicker}</p>
+      <h1>{heroTitle}</h1>
+      <p class="hero-text">{heroText}</p>
+    </div>
+
+    <div class="shop-hero-note">
+      <p>Filter by product type</p>
+      <p>Multiple images per item</p>
+      <p>One card blends every 3 seconds</p>
+    </div>
+  </section>
+
+  <section class="content-card prose shop-intro-card">
+    <slot />
+  </section>
+
+  <section class="shop-grid-wrap" aria-labelledby="shop-grid-title">
+    <div class="section-rule" aria-hidden="true"></div>
+    <div class="shop-grid-heading">
+      <p class="scribble-kicker">Browse the wall</p>
+      <h2 id="shop-grid-title">Stickers, prints, keychains, pins, apparel and a simple basket flow.</h2>
+    </div>
+
+    <div class="shop-filter-bar" aria-label="Filter shop products">
+      {categoryFilters.map((filter) => (
+        <button
+          type="button"
+          class="shop-filter-button"
+          data-shop-filter={filter.value}
+          aria-pressed={filter.value === 'all' ? 'true' : 'false'}
+        >
+          {filter.label}
+        </button>
+      ))}
+    </div>
+
+    <p class="shop-filter-status" data-shop-filter-status aria-live="polite">{clientProducts.length} items</p>
+
+    <div class="shop-grid" data-shop-grid>
+      {clientProducts.map((product, index) => {
+        const tilt = ['1.2deg', '-1deg', '0.8deg', '-0.7deg'][index % 4];
+
+        return (
+          <article
+            class="shop-card"
+            style={`--card-tilt: ${tilt};`}
+            data-product-id={product.id}
+            data-product-category={product.category}
+            data-preview-product={product.id}
+            tabindex="0"
+            role="button"
+            aria-label={`Open full preview for ${product.title}`}
+          >
+            <div class="shop-card-preview">
+              <img src={product.images[0]} alt={product.title} loading="lazy" data-card-image />
+              <img class="shop-card-blend-image" src="" alt="" aria-hidden="true" data-card-blend-image />
+              <span class="shop-card-preview-label">Click to preview</span>
+            </div>
+
+            <div class="shop-card-body">
+              <div class="shop-card-meta">
+                <span class="shop-badge">{product.categoryLabel}</span>
+                <span class="shop-price">£{product.price.toFixed(2)}</span>
+              </div>
+
+              <h3>{product.title}</h3>
+              <p>{product.shortDescription}</p>
+
+              <div class="shop-card-actions">
+                <div class="qty-control" data-qty-control>
+                  <button type="button" class="qty-button" data-qty-down aria-label={`Decrease quantity for ${product.title}`}>−</button>
+                  <input
+                    type="number"
+                    class="qty-input"
+                    min="1"
+                    step="1"
+                    value="1"
+                    inputmode="numeric"
+                    aria-label={`Quantity for ${product.title}`}
+                  />
+                  <button type="button" class="qty-button" data-qty-up aria-label={`Increase quantity for ${product.title}`}>+</button>
+                </div>
+
+                <button type="button" class="add-basket-button" data-add-product={product.id}>Add to basket</button>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <p class="shop-empty-state" data-shop-empty-state hidden>No products in this section yet.</p>
+  </section>
+</section>
+
+<div class="shop-modal" data-shop-modal hidden>
+  <div class="shop-modal-panel" role="dialog" aria-modal="true" aria-labelledby="shop-modal-title">
+    <button type="button" class="shop-modal-close" data-close-preview aria-label="Close product preview">Close ✕</button>
+
+    <section class="shop-modal-hero">
+      <button type="button" class="shop-modal-arrow shop-modal-arrow-left" data-modal-prev aria-label="Previous product image">‹</button>
+      <img class="shop-modal-image" src="" alt="" data-modal-main-image />
+      <button type="button" class="shop-modal-arrow shop-modal-arrow-right" data-modal-next aria-label="Next product image">›</button>
+      <p class="shop-modal-counter" data-modal-counter aria-live="polite">1 / 1</p>
+    </section>
+
+    <section class="shop-modal-details">
+      <div class="shop-card-meta shop-modal-meta">
+        <span class="shop-badge" data-modal-category></span>
+        <span class="shop-price" data-modal-price></span>
+      </div>
+
+      <h2 id="shop-modal-title" data-modal-title></h2>
+      <p class="shop-modal-description" data-modal-description></p>
+
+      <div class="shop-card-actions shop-modal-actions">
+        <div class="qty-control" data-modal-qty-control>
+          <button type="button" class="qty-button" data-qty-down aria-label="Decrease quantity">−</button>
+          <input type="number" class="qty-input" min="1" step="1" value="1" inputmode="numeric" aria-label="Quantity" />
+          <button type="button" class="qty-button" data-qty-up aria-label="Increase quantity">+</button>
+        </div>
+
+        <button type="button" class="add-basket-button" data-modal-add>Add to basket</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div id="shop-product-data" data-products={JSON.stringify(clientProducts)} hidden></div>
+
+<script is:inline>
+  const SHOP_CART_KEY = 'snoodle-doodles-cart';
+  const productDataNode = document.getElementById('shop-product-data');
+  const productList = productDataNode ? JSON.parse(productDataNode.dataset.products || '[]') : [];
+  const productMap = new Map(productList.map((item) => [item.id, item]));
+  const shopCategoryLabels = {
+    stickers: 'Stickers',
+    prints: 'Prints',
+    'keychains-pins': 'Keychains / pins',
+    apparel: 'Apparel',
+  };
+  const getShopCategoryLabel = (category) => shopCategoryLabels[category] || category;
+  const modal = document.querySelector('[data-shop-modal]');
+  const modalPanel = modal?.querySelector('.shop-modal-panel');
+  const modalMainImage = modal?.querySelector('[data-modal-main-image]');
+  const modalTitle = modal?.querySelector('[data-modal-title]');
+  const modalCategory = modal?.querySelector('[data-modal-category]');
+  const modalPrice = modal?.querySelector('[data-modal-price]');
+  const modalDescription = modal?.querySelector('[data-modal-description]');
+  const modalCounter = modal?.querySelector('[data-modal-counter]');
+  const modalPrevButton = modal?.querySelector('[data-modal-prev]');
+  const modalNextButton = modal?.querySelector('[data-modal-next]');
+  const modalAddButton = modal?.querySelector('[data-modal-add]');
+  const modalQtyWrap = modal?.querySelector('[data-modal-qty-control]');
+  const filterButtons = Array.from(document.querySelectorAll('[data-shop-filter]'));
+  const filterStatus = document.querySelector('[data-shop-filter-status]');
+  const emptyState = document.querySelector('[data-shop-empty-state]');
+  let activeProductId = null;
+  let activeImageIndex = 0;
+  let previousFocus = null;
+
+  const readCart = () => {
+    try {
+      const raw = localStorage.getItem(SHOP_CART_KEY);
+      const cart = raw ? JSON.parse(raw) : [];
+      return Array.isArray(cart) ? cart : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const writeCart = (cart) => {
+    localStorage.setItem(SHOP_CART_KEY, JSON.stringify(cart));
+    window.dispatchEvent(new Event('cart:update'));
+  };
+
+  const clampQty = (value) => {
+    const parsed = Number.parseInt(value, 10);
+    if (Number.isNaN(parsed) || parsed < 1) return 1;
+    return parsed;
+  };
+
+  const findQtyInput = (scope) => scope?.querySelector('.qty-input');
+
+  const addQtyControlBehaviour = (scope) => {
+    scope?.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-qty-down], [data-qty-up]');
+      if (!button) return;
+
+      event.stopPropagation();
+
+      const input = findQtyInput(scope);
+      const current = clampQty(input?.value || 1);
+      const delta = button.hasAttribute('data-qty-up') ? 1 : -1;
+      if (input) input.value = String(Math.max(1, current + delta));
+    });
+
+    const input = findQtyInput(scope);
+    input?.addEventListener('click', (event) => event.stopPropagation());
+    input?.addEventListener('change', () => {
+      input.value = String(clampQty(input.value));
+    });
+  };
+
+  document.querySelectorAll('[data-qty-control]').forEach((node) => addQtyControlBehaviour(node));
+  if (modalQtyWrap) addQtyControlBehaviour(modalQtyWrap);
+
+  const addToBasket = (productId, qty) => {
+    const product = productMap.get(productId);
+    if (!product) return;
+
+    const cart = readCart();
+    const existing = cart.find((item) => item.id === productId);
+    if (existing) {
+      existing.qty = clampQty(existing.qty) + qty;
+    } else {
+      cart.push({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.images[0],
+        qty,
+      });
+    }
+
+    writeCart(cart);
+  };
+
+  document.querySelectorAll('[data-add-product]').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.stopPropagation();
+
+      const card = button.closest('[data-product-id]');
+      const productId = card?.getAttribute('data-product-id');
+      const qty = clampQty(findQtyInput(card)?.value || 1);
+
+      if (productId) addToBasket(productId, qty);
+
+      button.textContent = 'Added!';
+      window.setTimeout(() => {
+        button.textContent = 'Add to basket';
+      }, 900);
+    });
+  });
+
+  const cardImageState = new WeakMap();
+  const cardBlendDelay = 3000;
+  const cardBlendDuration = 700;
+  let cardBlendTimer = null;
+  let nextCardToBlend = 0;
+
+  const getAnimatedCards = () =>
+    Array.from(document.querySelectorAll('.shop-card[data-product-id]')).filter((card) => {
+      const product = productMap.get(card.getAttribute('data-product-id'));
+      return !card.hidden && product?.images?.length > 1 && card.querySelector('[data-card-image]');
+    });
+
+  const blendCardToNextImage = (card) => {
+    const productId = card.getAttribute('data-product-id');
+    const product = productMap.get(productId);
+    const images = product?.images || [];
+    const mainImage = card.querySelector('[data-card-image]');
+    const blendImage = card.querySelector('[data-card-blend-image]');
+    const preview = card.querySelector('.shop-card-preview');
+
+    if (!mainImage || !blendImage || !preview || images.length < 2) return;
+
+    const currentIndex = cardImageState.get(card) || 0;
+    const nextIndex = (currentIndex + 1) % images.length;
+
+    blendImage.src = images[nextIndex];
+    blendImage.alt = "";
+    preview.classList.add('is-blending-image');
+
+    window.setTimeout(() => {
+      mainImage.src = images[nextIndex];
+      mainImage.alt = product.title;
+      blendImage.src = "";
+      cardImageState.set(card, nextIndex);
+      preview.classList.remove('is-blending-image');
+    }, cardBlendDuration);
+  };
+
+  const runSingleCardBlend = () => {
+    const cards = getAnimatedCards();
+
+    if (!cards.length) {
+      cardBlendTimer = window.setTimeout(runSingleCardBlend, cardBlendDelay);
+      return;
+    }
+
+    if (nextCardToBlend >= cards.length) {
+      nextCardToBlend = 0;
+    }
+
+    blendCardToNextImage(cards[nextCardToBlend]);
+    nextCardToBlend += 1;
+
+    cardBlendTimer = window.setTimeout(runSingleCardBlend, cardBlendDelay);
+  };
+
+  const applyShopFilter = (category) => {
+    let visibleCount = 0;
+
+    document.querySelectorAll('.shop-card[data-product-category]').forEach((card) => {
+      const cardCategory = card.getAttribute('data-product-category');
+      const shouldShow = category === 'all' || cardCategory === category;
+
+      card.hidden = !shouldShow;
+      card.classList.toggle('is-filtered-out', !shouldShow);
+
+      if (shouldShow) visibleCount += 1;
+    });
+
+    filterButtons.forEach((button) => {
+      const isActive = button.getAttribute('data-shop-filter') === category;
+      button.setAttribute('aria-pressed', String(isActive));
+      button.classList.toggle('is-active', isActive);
+    });
+
+    if (emptyState) {
+      emptyState.hidden = visibleCount > 0;
+      emptyState.textContent = category === 'all'
+        ? 'No products are published yet.'
+        : `No ${getShopCategoryLabel(category).toLowerCase()} products are published yet.`;
+    }
+
+    if (filterStatus) {
+      filterStatus.textContent = category === 'all'
+        ? `${visibleCount} item${visibleCount === 1 ? '' : 's'}`
+        : `${visibleCount} ${getShopCategoryLabel(category).toLowerCase()} item${visibleCount === 1 ? '' : 's'}`;
+    }
+
+    nextCardToBlend = 0;
+  };
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      applyShopFilter(button.getAttribute('data-shop-filter') || 'all');
+    });
+  });
+
+  applyShopFilter('all');
+
+  const startCardBlendLoop = () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (cardBlendTimer) window.clearTimeout(cardBlendTimer);
+
+    cardBlendTimer = window.setTimeout(runSingleCardBlend, cardBlendDelay);
+  };
+
+  const stopCardBlendLoop = () => {
+    if (cardBlendTimer) {
+      window.clearTimeout(cardBlendTimer);
+      cardBlendTimer = null;
+    }
+  };
+
+  startCardBlendLoop();
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopCardBlendLoop();
+    } else {
+      startCardBlendLoop();
+    }
+  });
+
+  const getActiveProduct = () => activeProductId ? productMap.get(activeProductId) : null;
+
+  const updateCarouselImage = (nextIndex) => {
+    const product = getActiveProduct();
+    if (!product || !product.images?.length) return;
+
+    const imageCount = product.images.length;
+    activeImageIndex = ((nextIndex % imageCount) + imageCount) % imageCount;
+
+    if (modalMainImage) {
+      modalMainImage.src = product.images[activeImageIndex];
+      modalMainImage.alt = `${product.title}, image ${activeImageIndex + 1} of ${imageCount}`;
+    }
+
+    if (modalCounter) {
+      modalCounter.textContent = `${activeImageIndex + 1} / ${imageCount}`;
+    }
+
+    const multipleImages = imageCount > 1;
+    [modalPrevButton, modalNextButton].forEach((button) => {
+      if (!button) return;
+      button.hidden = !multipleImages;
+      button.disabled = !multipleImages;
+    });
+  };
+
+  const closePreview = () => {
+    if (!modal) return;
+
+    modal.hidden = true;
+    document.body.classList.remove('modal-open');
+    activeProductId = null;
+    activeImageIndex = 0;
+
+    if (previousFocus && typeof previousFocus.focus === 'function') {
+      previousFocus.focus();
+    }
+  };
+
+  const openPreview = (productId, trigger = null) => {
+    const product = productMap.get(productId);
+    if (!product || !product.images?.length || !modal) return;
+
+    activeProductId = productId;
+    activeImageIndex = 0;
+    previousFocus = trigger || document.activeElement;
+
+    if (modalTitle) modalTitle.textContent = product.title;
+    if (modalCategory) modalCategory.textContent = product.categoryLabel || getShopCategoryLabel(product.category);
+    if (modalPrice) modalPrice.textContent = `£${Number(product.price).toFixed(2)}`;
+    if (modalDescription) modalDescription.textContent = product.shortDescription;
+
+    const modalInput = findQtyInput(modalQtyWrap);
+    if (modalInput) modalInput.value = '1';
+
+    updateCarouselImage(0);
+
+    modal.hidden = false;
+    document.body.classList.add('modal-open');
+    modalPanel?.scrollTo?.({ top: 0 });
+    modal.querySelector('[data-close-preview]')?.focus();
+  };
+
+  document.querySelectorAll('[data-preview-product]').forEach((item) => {
+    item.addEventListener('click', (event) => {
+      const interactive = event.target.closest('button, input, select, textarea, a, [data-qty-control], [data-add-product]');
+      if (interactive && interactive !== item) return;
+
+      const productId = item.getAttribute('data-preview-product');
+      if (productId) openPreview(productId, item);
+    });
+
+    item.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+
+      const productId = item.getAttribute('data-preview-product');
+      if (!productId) return;
+
+      event.preventDefault();
+      openPreview(productId, item);
+    });
+  });
+
+  document.querySelectorAll('[data-close-preview]').forEach((button) => {
+    button.addEventListener('click', closePreview);
+  });
+
+  modalPrevButton?.addEventListener('click', () => updateCarouselImage(activeImageIndex - 1));
+  modalNextButton?.addEventListener('click', () => updateCarouselImage(activeImageIndex + 1));
+
+  document.addEventListener('keydown', (event) => {
+    if (!modal || modal.hidden) return;
+
+    if (event.key === 'Escape') {
+      closePreview();
+    }
+
+    if (event.key === 'ArrowLeft') {
+      updateCarouselImage(activeImageIndex - 1);
+    }
+
+    if (event.key === 'ArrowRight') {
+      updateCarouselImage(activeImageIndex + 1);
+    }
+  });
+
+  modalAddButton?.addEventListener('click', () => {
+    if (!activeProductId) return;
+
+    const qty = clampQty(findQtyInput(modalQtyWrap)?.value || 1);
+    addToBasket(activeProductId, qty);
+
+    modalAddButton.textContent = 'Added!';
+    window.setTimeout(() => {
+      modalAddButton.textContent = 'Add to basket';
+    }, 900);
+  });
+</script>

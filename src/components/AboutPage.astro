@@ -1,0 +1,84 @@
+---
+const { page } = Astro.props;
+
+const aboutTitle = page.data.aboutTitle ?? page.data.heroTitle ?? "Hiya, I'm Snoodle!";
+const aboutIntro = page.data.aboutIntro ?? page.data.heroText ?? page.data.description;
+const aboutInfoTitle = page.data.aboutInfoTitle ?? 'info';
+const emailPlaceholder = page.data.aboutEmailPlaceholder ?? page.data.emailPlaceholder ?? 'email';
+const resumeLabel = page.data.resumeLabel ?? 'View Resume';
+const resumeLink = page.data.resumeLink ?? '/media/resume.pdf';
+const profileImage = page.data.profileImage;
+const aboutSectionTitle = page.data.aboutSectionTitle ?? 'TITLE';
+const artSectionTitle = page.data.artSectionTitle ?? 'ART';
+const artCards = [
+  page.data.artCardOne ?? 'ART',
+  page.data.artCardTwo ?? 'ART',
+  page.data.artCardThree ?? 'ART',
+].filter(Boolean);
+---
+
+<section class="about-sketch" aria-labelledby="about-title">
+  <div class="about-top-grid">
+    <div class="about-polaroid-stage" aria-label="Portrait card area">
+      <div class="photo-sheet photo-sheet-back" aria-hidden="true"></div>
+      <div class="photo-sheet photo-sheet-middle" aria-hidden="true"></div>
+
+      <figure class="about-polaroid">
+        <div class="about-portrait-box">
+          {profileImage ? (
+            <img src={profileImage} alt="Snoodle Doodles portrait" loading="lazy" />
+          ) : (
+            <svg class="about-portrait-doodle" viewBox="0 0 520 420" role="img" aria-label="A placeholder doodle portrait with the word me">
+              <path class="doodle-line" d="M121 278c16-31 41-45 74-43 36 2 61 18 75 48" />
+              <path class="doodle-line" d="M184 235c-9-61 16-101 76-120 64-19 118 3 160 65" />
+              <path class="doodle-line" d="M214 187c25 17 53 17 84-1" />
+              <path class="doodle-line" d="M334 186c17 13 35 15 54 5" />
+              <path class="doodle-line" d="M221 258c31 28 67 31 108 8" />
+              <path class="doodle-line" d="M173 311c58 32 125 37 201 13" />
+              <path class="doodle-line" d="M118 262c-38-7-62-31-72-71" />
+              <path class="doodle-line" d="M55 195c-15-18-19-34-10-49 11-17 26-17 46 0 8-22 22-30 42-24 19 7 24 24 15 51" />
+              <path class="doodle-line" d="M266 123c-20-26-19-49 4-70 9 20 29 28 60 23-18 22-21 43-10 63" />
+              <text x="340" y="116" class="doodle-text">ME</text>
+            </svg>
+          )}
+        </div>
+      </figure>
+    </div>
+
+    <div class="about-intro-panel">
+      <h1 id="about-title" class="about-scribble-title">{aboutTitle}</h1>
+
+      <div class="about-info-card">
+        <h2>{aboutInfoTitle}</h2>
+        {aboutIntro && <p>{aboutIntro}</p>}
+      </div>
+
+      <form class="about-email-sketch" action="/contact/" method="get">
+        <label class="visually-hidden" for="about-email">Email address</label>
+        <input id="about-email" name="email" type="email" placeholder={emailPlaceholder} />
+      </form>
+
+      <a class="resume-pill" href={resumeLink}>{resumeLabel}</a>
+    </div>
+  </div>
+
+  <div class="about-bottom-grid">
+    <section class="about-panel about-story-panel" aria-labelledby="about-story-title">
+      <h2 id="about-story-title">{aboutSectionTitle}</h2>
+      <div class="about-story-box prose">
+        <slot />
+      </div>
+    </section>
+
+    <section class="about-panel about-art-panel" aria-labelledby="about-art-title">
+      <h2 id="about-art-title">{artSectionTitle}</h2>
+      <div class="about-art-stack" aria-label="Featured art placeholders">
+        {artCards.map((label, index) => (
+          <a class={`about-art-card about-art-card-${index + 1}`} href="/portfolio/">
+            <span>{label}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</section>

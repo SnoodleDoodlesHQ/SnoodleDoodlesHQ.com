@@ -1,0 +1,37 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ShopPage from '../components/ShopPage.astro';
+
+const page = await getEntry('pages', 'shop');
+const Content = page ? (await render(page)).Content : null;
+
+const normalizeImages = (data: any) => {
+  const images = Array.isArray(data.images) && data.images.length > 0
+    ? data.images
+    : [data.image1, data.image2, data.image3, data.image4].filter(Boolean);
+
+  return images.filter((image: string | undefined) => Boolean(image));
+};
+
+const products = (await getCollection('products', ({ data }) => data.published !== false))
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99) || a.data.title.localeCompare(b.data.title))
+  .map((product) => ({
+    id: product.id,
+    title: product.data.title,
+    category: product.data.category,
+    price: product.data.price,
+    shortDescription: product.data.shortDescription,
+    images: normalizeImages(product.data),
+  }))
+  .filter((product) => product.images.length > 0);
+
+const title = page ? `${page.data.title} | Snoodle Doodles HQ` : 'Shop | Snoodle Doodles HQ';
+const description = page?.data.description ?? 'Browse the Snoodle Doodles HQ sample store.';
+---
+
+<BaseLayout title={title} description={description}>
+  <ShopPage page={page?.data} products={products}>
+    {Content && <Content />}
+  </ShopPage>
+</BaseLayout>

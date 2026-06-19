@@ -1,0 +1,104 @@
+---
+const { page, posts = [] } = Astro.props;
+
+const heroTitle = page?.heroTitle ?? page?.title ?? 'Personal';
+const heroText = page?.heroText ?? 'Images, videos, notes and stray little things.';
+const heroKicker = page?.heroKicker ?? 'Personal';
+
+const formatDate = (date) => {
+  if (!date) return '';
+  return new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  }).format(date);
+};
+
+const youtubeIdFromUrl = (url) => {
+  if (!url) return '';
+
+  const patterns = [
+    /youtu\.be\/([a-zA-Z0-9_-]{6,})/,
+    /youtube\.com\/watch\?[^#]*v=([a-zA-Z0-9_-]{6,})/,
+    /youtube\.com\/embed\/([a-zA-Z0-9_-]{6,})/,
+    /youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/,
+  ];
+
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match?.[1]) return match[1];
+  }
+
+  return '';
+};
+
+const getEmbedUrl = (post) => {
+  const id = post.youtubeId || youtubeIdFromUrl(post.videoUrl);
+  return id ? `https://www.youtube-nocookie.com/embed/${id}` : '';
+};
+---
+
+<section class="personal-page">
+  <section class="page-hero personal-hero">
+    <p class="scribble-kicker">{heroKicker}</p>
+    <h1>{heroTitle}</h1>
+    {heroText && <p class="hero-text">{heroText}</p>}
+  </section>
+
+  <section class="personal-intro content-card prose">
+    <slot />
+  </section>
+
+  <section class="personal-wall" aria-labelledby="personal-wall-title">
+    <div class="section-rule" aria-hidden="true"></div>
+
+    <div class="personal-wall-heading">
+      <p class="scribble-kicker">Latest bits</p>
+      <h2 id="personal-wall-title">Sketches, videos, little updates and odd scraps from the desk.</h2>
+    </div>
+
+    <div class="personal-grid">
+      {posts.map((post, index) => {
+        const embedUrl = getEmbedUrl(post);
+        const dateLabel = formatDate(post.date);
+        const cardClass = `personal-card personal-card-${post.size || 'medium'} personal-card-${(index % 6) + 1}`;
+
+        return (
+          <article class={cardClass}>
+            <div class="personal-card-media">
+              {post.type === 'video' && embedUrl ? (
+                <iframe
+                  src={embedUrl}
+                  title={post.title}
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                ></iframe>
+              ) : post.image ? (
+                <img src={post.image} alt={post.imageAlt ?? ''} loading="lazy" />
+              ) : (
+                <div class="personal-text-card-art" aria-hidden="true">
+                  <span>{post.title.slice(0, 1)}</span>
+                </div>
+              )}
+
+              {post.type === 'video' && !embedUrl && post.image && (
+                <span class="personal-video-badge">Video</span>
+              )}
+            </div>
+
+            <div class="personal-card-copy">
+              <div class="personal-card-meta">
+                <span>{post.type}</span>
+                {dateLabel && <time datetime={post.date?.toISOString?.()}>{dateLabel}</time>}
+              </div>
+
+              <h3>{post.title}</h3>
+              {post.description && <p>{post.description}</p>}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</section>

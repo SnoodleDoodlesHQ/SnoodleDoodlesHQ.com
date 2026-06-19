@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" fill="none">
+  <rect width="1200" height="1200" fill="#ecf7ff"/>
+  <rect x="44" y="44" width="1112" height="1112" rx="20" stroke="#161616" stroke-width="5"/>
+  <text x="88" y="130" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="42" fill="#161616">Snoodle Doodles HQ</text>
+  <text x="88" y="210" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="82" fill="#161616">Wonky House Print</text>
+  <text x="90" y="274" font-family="Comic Sans MS, Bradley Hand, Segoe Print, sans-serif" font-size="36" fill="#444">Print sample image 1</text>
+  
+  <rect x="260" y="270" width="680" height="620" rx="18" fill="#fffefa" stroke="#161616" stroke-width="5"/>
+  <path d="M344 740 C476 622 596 652 728 546 C824 468 808 372 886 320" stroke="#161616" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <circle cx="452" cy="442" r="90" stroke="#161616" stroke-width="5"/>
+  <path d="M618 408 C710 370 790 410 820 496 C856 596 782 686 676 672 C574 658 524 490 618 408Z" fill="#fffefa" stroke="#161616" stroke-width="5"/>
+  <circle cx="656" cy="518" r="9" fill="#161616"/>
+  <circle cx="744" cy="512" r="9" fill="#161616"/>
+  <path d="M666 584 Q706 616 752 580" stroke="#161616" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+  <path d="M116 1010 C238 958 390 984 510 1038 C650 1102 832 1078 1008 1002" stroke="#161616" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <circle cx="1032" cy="214" r="22" stroke="#161616" stroke-width="5"/>
+  <circle cx="1082" cy="252" r="12" fill="#161616"/>
+</svg>

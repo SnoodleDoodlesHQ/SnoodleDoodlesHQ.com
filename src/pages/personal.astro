@@ -1,0 +1,35 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PersonalPage from '../components/PersonalPage.astro';
+
+const page = await getEntry('pages', 'personal');
+
+if (!page || page.data.published === false) {
+  throw new Error('Missing published personal page content at src/content/pages/personal.md');
+}
+
+const { Content } = await render(page);
+
+const posts = (await getCollection('personalPosts', ({ data }) => data.published !== false))
+  .sort((a, b) => {
+    const orderSort = (a.data.order ?? 99) - (b.data.order ?? 99);
+    if (orderSort !== 0) return orderSort;
+
+    const aDate = a.data.date?.getTime?.() ?? 0;
+    const bDate = b.data.date?.getTime?.() ?? 0;
+    return bDate - aDate || a.data.title.localeCompare(b.data.title);
+  })
+  .map((post) => ({
+    id: post.id,
+    ...post.data,
+  }));
+
+const title = `${page.data.title} | Snoodle Doodles HQ`;
+---
+
+<BaseLayout title={title} description={page.data.description}>
+  <PersonalPage page={page.data} posts={posts}>
+    <Content />
+  </PersonalPage>
+</BaseLayout>

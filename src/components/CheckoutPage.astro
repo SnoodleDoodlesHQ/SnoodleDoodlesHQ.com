@@ -1,0 +1,302 @@
+---
+const { settings } = Astro.props;
+
+const title = settings?.heroTitle ?? settings?.title ?? 'Checkout';
+const heroText = settings?.heroText ?? 'Review your basket before going to PayPal.';
+const currency = settings?.currency ?? 'GBP';
+const shippingFlatRate = Number(settings?.shippingFlatRate ?? 0);
+const handlingFee = Number(settings?.handlingFee ?? 0);
+const paypalBusiness = settings?.paypalBusiness ?? '';
+const returnPath = settings?.returnPath ?? '/';
+const cancelPath = settings?.cancelPath ?? '/checkout/';
+
+const toAbsolutePath = (path) => path?.startsWith('/') ? path : `/${path || ''}`;
+---
+
+<section class="checkout-page">
+  <section class="page-hero checkout-hero">
+    <p class="scribble-kicker">Basket</p>
+    <h1>{title}</h1>
+    {heroText && <p class="hero-text">{heroText}</p>}
+  </section>
+
+  <section class="checkout-layout">
+    <div class="checkout-review-card">
+      <div class="checkout-card-heading">
+        <p class="scribble-kicker">Order review</p>
+        <h2>Your basket</h2>
+      </div>
+
+      <div class="checkout-empty" data-checkout-empty hidden>
+        <p>Your basket is empty.</p>
+        <a class="shop-button" href="/shop/">Back to shop</a>
+      </div>
+
+      <div class="checkout-items" data-checkout-items></div>
+    </div>
+
+    <aside class="checkout-summary-card" aria-labelledby="checkout-summary-title">
+      <div class="checkout-card-heading">
+        <p class="scribble-kicker">Summary</p>
+        <h2 id="checkout-summary-title">Total</h2>
+      </div>
+
+      <dl class="checkout-totals">
+        <div>
+          <dt>Items</dt>
+          <dd data-checkout-item-count>0</dd>
+        </div>
+        <div>
+          <dt>Subtotal</dt>
+          <dd data-checkout-subtotal>£0.00</dd>
+        </div>
+        <div>
+          <dt>Shipping</dt>
+          <dd data-checkout-shipping>£0.00</dd>
+        </div>
+        <div>
+          <dt>Handling</dt>
+          <dd data-checkout-handling>£0.00</dd>
+        </div>
+        <div class="checkout-total-row">
+          <dt>Total</dt>
+          <dd data-checkout-total>£0.00</dd>
+        </div>
+      </dl>
+
+      <form
+        class="checkout-paypal-form"
+        action="https://www.paypal.com/cgi-bin/webscr"
+        method="post"
+        data-paypal-form
+      >
+        <input type="hidden" name="cmd" value="_cart" />
+        <input type="hidden" name="upload" value="1" />
+        <input type="hidden" name="business" value={paypalBusiness} />
+        <input type="hidden" name="currency_code" value={currency} />
+        <input type="hidden" name="return" data-paypal-return value={toAbsolutePath(returnPath)} />
+        <input type="hidden" name="cancel_return" data-paypal-cancel value={toAbsolutePath(cancelPath)} />
+        <input type="hidden" name="no_shipping" value="2" />
+        <input type="hidden" name="no_note" value="0" />
+        <input type="hidden" name="charset" value="utf-8" />
+
+        <div data-paypal-items></div>
+
+        <button class="checkout-paypal-button" type="submit" data-paypal-submit disabled>
+          Continue to PayPal
+        </button>
+      </form>
+
+      <p class="checkout-config-warning" data-checkout-config-warning hidden>
+        Add your real PayPal business email or merchant ID in <code>src/content/checkout/settings.md</code>.
+      </p>
+
+      <p class="checkout-smallprint">
+        You will review payment in PayPal before paying.
+      </p>
+    </aside>
+  </section>
+</section>
+
+<script type="application/json" id="checkout-settings" data-settings={JSON.stringify({
+  currency,
+  shippingFlatRate,
+  handlingFee,
+  paypalBusiness,
+  returnPath: toAbsolutePath(returnPath),
+  cancelPath: toAbsolutePath(cancelPath),
+})}></script>
+
+<script is:inline>
+  const CHECKOUT_CART_KEY = 'snoodle-doodles-cart';
+  const settingsNode = document.getElementById('checkout-settings');
+  const checkoutSettings = settingsNode ? JSON.parse(settingsNode.dataset.settings || '{}') : {};
+  const itemsWrap = document.querySelector('[data-checkout-items]');
+  const emptyState = document.querySelector('[data-checkout-empty]');
+  const itemCountNode = document.querySelector('[data-checkout-item-count]');
+  const subtotalNode = document.querySelector('[data-checkout-subtotal]');
+  const shippingNode = document.querySelector('[data-checkout-shipping]');
+  const handlingNode = document.querySelector('[data-checkout-handling]');
+  const totalNode = document.querySelector('[data-checkout-total]');
+  const paypalItemsNode = document.querySelector('[data-paypal-items]');
+  const paypalForm = document.querySelector('[data-paypal-form]');
+  const paypalSubmit = document.querySelector('[data-paypal-submit]');
+  const paypalReturn = document.querySelector('[data-paypal-return]');
+  const paypalCancel = document.querySelector('[data-paypal-cancel]');
+  const configWarning = document.querySelector('[data-checkout-config-warning]');
+
+  const readCart = () => {
+    try {
+      const raw = localStorage.getItem(CHECKOUT_CART_KEY);
+      const cart = raw ? JSON.parse(raw) : [];
+      return Array.isArray(cart) ? cart : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const writeCart = (cart) => {
+    localStorage.setItem(CHECKOUT_CART_KEY, JSON.stringify(cart));
+    window.dispatchEvent(new Event('cart:update'));
+  };
+
+  const clampQty = (value) => {
+    const parsed = Number.parseInt(value, 10);
+    if (Number.isNaN(parsed) || parsed < 1) return 1;
+    return parsed;
+  };
+
+  const formatMoney = (amount) => {
+    try {
+      return new Intl.NumberFormat('en-GB', {
+        style: 'currency',
+        currency: checkoutSettings.currency || 'GBP',
+      }).format(amount);
+    } catch {
+      return `£${amount.toFixed(2)}`;
+    }
+  };
+
+  const cleanPrice = (value) => {
+    const number = Number(value);
+    return Number.isFinite(number) ? Math.max(0, number) : 0;
+  };
+
+  const getCartTotals = (cart) => {
+    const itemCount = cart.reduce((total, item) => total + clampQty(item.qty), 0);
+    const subtotal = cart.reduce((total, item) => total + cleanPrice(item.price) * clampQty(item.qty), 0);
+    const shipping = itemCount > 0 ? cleanPrice(checkoutSettings.shippingFlatRate) : 0;
+    const handling = itemCount > 0 ? cleanPrice(checkoutSettings.handlingFee) : 0;
+    const total = subtotal + shipping + handling;
+
+    return { itemCount, subtotal, shipping, handling, total };
+  };
+
+  const createHiddenInput = (name, value) => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    return input;
+  };
+
+  const syncPayPalFields = (cart, totals) => {
+    if (!paypalItemsNode) return;
+
+    paypalItemsNode.innerHTML = '';
+
+    cart.forEach((item, index) => {
+      const n = index + 1;
+      paypalItemsNode.appendChild(createHiddenInput(`item_name_${n}`, item.title || 'Snoodle item'));
+      paypalItemsNode.appendChild(createHiddenInput(`amount_${n}`, cleanPrice(item.price).toFixed(2)));
+      paypalItemsNode.appendChild(createHiddenInput(`quantity_${n}`, String(clampQty(item.qty))));
+      paypalItemsNode.appendChild(createHiddenInput(`item_number_${n}`, item.id || `item-${n}`));
+    });
+
+    if (totals.shipping > 0) {
+      paypalItemsNode.appendChild(createHiddenInput('shipping_1', totals.shipping.toFixed(2)));
+    }
+
+    if (totals.handling > 0) {
+      paypalItemsNode.appendChild(createHiddenInput('handling_cart', totals.handling.toFixed(2)));
+    }
+
+    if (typeof window !== 'undefined') {
+      const origin = window.location.origin;
+      if (paypalReturn && checkoutSettings.returnPath) {
+        paypalReturn.value = `${origin}${checkoutSettings.returnPath}`;
+      }
+      if (paypalCancel && checkoutSettings.cancelPath) {
+        paypalCancel.value = `${origin}${checkoutSettings.cancelPath}`;
+      }
+    }
+  };
+
+  const renderCheckout = () => {
+    const cart = readCart().filter((item) => item && item.id && clampQty(item.qty) > 0);
+    const totals = getCartTotals(cart);
+    const hasItems = cart.length > 0;
+    const paypalConfigured = checkoutSettings.paypalBusiness && !String(checkoutSettings.paypalBusiness).includes('YOUR_PAYPAL');
+
+    if (itemsWrap) {
+      itemsWrap.innerHTML = '';
+
+      cart.forEach((item) => {
+        const itemEl = document.createElement('article');
+        itemEl.className = 'checkout-item';
+        itemEl.dataset.checkoutItem = item.id;
+        itemEl.innerHTML = `
+          <img class="checkout-item-image" src="${item.image || ''}" alt="" />
+          <div class="checkout-item-copy">
+            <h3>${item.title || 'Snoodle item'}</h3>
+            <p>${formatMoney(cleanPrice(item.price))} each</p>
+          </div>
+          <div class="checkout-item-controls">
+            <label>
+              <span>Qty</span>
+              <input type="number" min="1" step="1" value="${clampQty(item.qty)}" data-checkout-qty />
+            </label>
+            <p class="checkout-line-total">${formatMoney(cleanPrice(item.price) * clampQty(item.qty))}</p>
+            <button type="button" data-checkout-remove>Remove</button>
+          </div>
+        `;
+
+        itemsWrap.appendChild(itemEl);
+      });
+    }
+
+    if (emptyState) emptyState.hidden = hasItems;
+    if (itemCountNode) itemCountNode.textContent = String(totals.itemCount);
+    if (subtotalNode) subtotalNode.textContent = formatMoney(totals.subtotal);
+    if (shippingNode) shippingNode.textContent = totals.shipping > 0 ? formatMoney(totals.shipping) : 'Free / TBD';
+    if (handlingNode) handlingNode.textContent = totals.handling > 0 ? formatMoney(totals.handling) : 'None';
+    if (totalNode) totalNode.textContent = formatMoney(totals.total);
+    if (paypalSubmit) paypalSubmit.disabled = !hasItems || !paypalConfigured;
+    if (configWarning) configWarning.hidden = paypalConfigured;
+    if (paypalForm) paypalForm.classList.toggle('is-disabled', !hasItems || !paypalConfigured);
+
+    syncPayPalFields(cart, totals);
+    writeCart(cart);
+  };
+
+  itemsWrap?.addEventListener('change', (event) => {
+    const qtyInput = event.target.closest('[data-checkout-qty]');
+    if (!qtyInput) return;
+
+    const itemEl = qtyInput.closest('[data-checkout-item]');
+    const id = itemEl?.dataset.checkoutItem;
+    const cart = readCart();
+    const item = cart.find((cartItem) => cartItem.id === id);
+
+    if (item) {
+      item.qty = clampQty(qtyInput.value);
+      writeCart(cart);
+      renderCheckout();
+    }
+  });
+
+  itemsWrap?.addEventListener('click', (event) => {
+    const removeButton = event.target.closest('[data-checkout-remove]');
+    if (!removeButton) return;
+
+    const itemEl = removeButton.closest('[data-checkout-item]');
+    const id = itemEl?.dataset.checkoutItem;
+    const cart = readCart().filter((item) => item.id !== id);
+
+    writeCart(cart);
+    renderCheckout();
+  });
+
+  paypalForm?.addEventListener('submit', (event) => {
+    const cart = readCart();
+    const paypalConfigured = checkoutSettings.paypalBusiness && !String(checkoutSettings.paypalBusiness).includes('YOUR_PAYPAL');
+
+    if (!cart.length || !paypalConfigured) {
+      event.preventDefault();
+    }
+  });
+
+  renderCheckout();
+  window.addEventListener('storage', renderCheckout);
+  window.addEventListener('pageshow', renderCheckout);
+</script>

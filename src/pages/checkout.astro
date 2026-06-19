@@ -1,0 +1,20 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CheckoutPage from '../components/CheckoutPage.astro';
+
+const settings = await getEntry('checkout', 'settings');
+
+if (!settings || settings.data.published === false) {
+  throw new Error('Missing published checkout settings at src/content/checkout/settings.md');
+}
+
+const { Content } = await render(settings);
+const title = `${settings.data.title} | Snoodle Doodles HQ`;
+---
+
+<BaseLayout title={title} description={settings.data.description}>
+  <CheckoutPage settings={settings.data}>
+    <Content />
+  </CheckoutPage>
+</BaseLayout>
