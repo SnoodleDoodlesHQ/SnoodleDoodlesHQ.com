@@ -1,0 +1,74 @@
+---
+import { getEntry } from 'astro:content';
+
+const settingsEntry = await getEntry('siteSettings', 'call-to-arms');
+const settings = settingsEntry?.data;
+
+const currentPath = Astro.url.pathname;
+const isLandingPage = currentPath === '/' || currentPath === '/index.html';
+const shouldRender = settings && settings.published !== false && !isLandingPage;
+
+const normalizeMailto = (value) => {
+  if (!value) return '';
+  return value.startsWith('mailto:') ? value : `mailto:${value}`;
+};
+
+const socialIcon = (platform = '') => {
+  const key = platform.toLowerCase().trim();
+
+  const icons = {
+    instagram: '◎',
+    youtube: '▶',
+    tiktok: '♪',
+    x: '𝕏',
+    twitter: '𝕏',
+    behance: 'Bē',
+    dribbble: '●',
+    linkedin: 'in',
+    artstation: 'A',
+    email: '@',
+    link: '↗',
+  };
+
+  return icons[key] ?? '↗';
+};
+
+const mailto = normalizeMailto(settings?.mailto);
+---
+
+{shouldRender && (
+  <section class="call-to-arms" aria-labelledby="call-to-arms-title">
+    <div class="call-to-arms-column call-to-arms-socials">
+      <div class="call-to-arms-social-list">
+        {settings.socialLinks.map((link) => (
+          <a
+            class="call-to-arms-social"
+            href={link.url}
+            aria-label={link.label}
+            title={link.label}
+            target={link.url.startsWith('http') ? '_blank' : undefined}
+            rel={link.url.startsWith('http') ? 'noreferrer' : undefined}
+          >
+            <span aria-hidden="true">{socialIcon(link.platform)}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="call-to-arms-column call-to-arms-main">
+      <p class="scribble-kicker">Call to arms</p>
+      <h2 id="call-to-arms-title">{settings.title}</h2>
+      {mailto && (
+        <a class="call-to-arms-mail" href={mailto}>{settings.mailLabel || settings.mailto}</a>
+      )}
+    </div>
+
+    <div class="call-to-arms-column call-to-arms-contact">
+      <div class="call-to-arms-links">
+        {(settings.contactLinks.length ? settings.contactLinks : [{ label: 'Contact page', url: '/contact/' }]).map((link) => (
+          <a href={link.url}>{link.label}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}

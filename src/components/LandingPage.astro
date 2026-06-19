@@ -10,14 +10,24 @@ const portfolioItems = (await getCollection('portfolio', ({ data }) => data.publ
 const heroTitle = page.data.heroTitle ?? page.data.title;
 const heroText = page.data.heroText;
 const heroKicker = page.data.heroKicker ?? 'Fresh nonsense, useful art';
+const heroBackgroundImage = page.data.heroBackgroundImage ?? '/media/home-hero.svg';
+const heroBackgroundPosition = page.data.heroBackgroundPosition ?? 'center center';
 const emailPlaceholder = page.data.emailPlaceholder ?? 'email';
 const heroBullets = (page.data.heroBullets ?? '')
   .split('\n')
   .map((item: string) => item.trim())
   .filter(Boolean);
+
+const hasLandingBody = Boolean(page.body?.trim());
 ---
 
-<section class="landing-hero" aria-labelledby="landing-title">
+<section
+  class="landing-hero"
+  aria-labelledby="landing-title"
+  style={`--landing-hero-image: url('${heroBackgroundImage}'); --landing-hero-position: ${heroBackgroundPosition};`}
+>
+  <div class="landing-hero-scrim" aria-hidden="true"></div>
+
   <div class="hero-copy">
     <p class="scribble-kicker">{heroKicker}</p>
     <h1 id="landing-title" class="scribble-title">{heroTitle}</h1>
@@ -36,17 +46,13 @@ const heroBullets = (page.data.heroBullets ?? '')
       </ul>
     )}
   </div>
-
-  <div class="hero-line-art" aria-hidden="true">
-    <svg viewBox="0 0 260 520" preserveAspectRatio="none">
-      <path d="M188 4 C259 44 238 99 181 145 C126 190 124 236 182 277 C237 316 215 362 153 397 C76 439 110 499 28 518" />
-    </svg>
-  </div>
 </section>
 
-<section class="landing-note prose" aria-label="Homepage introduction">
-  <slot />
-</section>
+{hasLandingBody && (
+  <section class="landing-note prose" aria-label="Homepage introduction">
+    <slot />
+  </section>
+)}
 
 <section id="portfolio" class="portfolio-wall" aria-labelledby="portfolio-title">
   <div class="section-rule" aria-hidden="true"></div>

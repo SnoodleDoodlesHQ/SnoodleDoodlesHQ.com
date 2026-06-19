@@ -47,6 +47,14 @@ content:
       - name: heroKicker
         label: Kicker
         type: string
+      - name: heroBackgroundImage
+        label: Homepage hero background image
+        type: image
+        description: Used on the full-screen landing banner.
+      - name: heroBackgroundPosition
+        label: Homepage hero background position
+        type: string
+        description: Example: center center, 50% 40%, top center.
       - name: emailPlaceholder
         label: Homepage email placeholder
         type: string
@@ -288,6 +296,65 @@ content:
         type: rich-text
     view:
       fields: [title, currency, paypalBusiness]
+      primary: title
+
+
+  - name: siteSettings
+    label: Site settings
+    type: collection
+    path: src/content/site
+    format: yaml-frontmatter
+    filename:
+      template: "{primary}.md"
+      field: create
+    fields:
+      - name: title
+        label: Call to arms title
+        type: string
+        required: true
+      - name: mailto
+        label: Mailto email or mailto link
+        type: string
+        description: Example: hello@example.com or mailto:hello@example.com
+      - name: mailLabel
+        label: Email link label
+        type: string
+      - name: socialLinks
+        label: Social media links
+        type: object
+        list: true
+        fields:
+          - name: platform
+            label: Platform
+            type: select
+            options:
+              values: [instagram, youtube, tiktok, x, behance, dribbble, linkedin, artstation, email, link]
+          - name: label
+            label: Accessible label
+            type: string
+          - name: url
+            label: URL
+            type: string
+      - name: contactLinks
+        label: Contact links
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: Link label
+            type: string
+          - name: url
+            label: URL
+            type: string
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+      - name: body
+        label: Notes
+        type: rich-text
+    view:
+      fields: [title, published]
       primary: title
 
 

@@ -13,6 +13,8 @@ const pages = defineCollection({
     heroTitle: z.string().optional(),
     heroText: z.string().optional(),
     heroKicker: z.string().optional(),
+    heroBackgroundImage: z.string().optional(),
+    heroBackgroundPosition: z.string().optional(),
     emailPlaceholder: z.string().optional(),
     heroBullets: z.string().optional(),
     contactImage: z.string().optional(),
@@ -103,4 +105,27 @@ const checkout = defineCollection({
   }),
 });
 
-export const collections = { pages, portfolio, products, personalPosts, checkout };
+
+const siteSettings = defineCollection({
+  loader: glob({
+    base: './src/content/site',
+    pattern: '**/*.{md,mdx}',
+  }),
+  schema: z.object({
+    title: z.string(),
+    mailto: z.string().optional(),
+    mailLabel: z.string().optional(),
+    socialLinks: z.array(z.object({
+      platform: z.string(),
+      label: z.string(),
+      url: z.string(),
+    })).default([]),
+    contactLinks: z.array(z.object({
+      label: z.string(),
+      url: z.string(),
+    })).default([]),
+    published: z.boolean().default(true),
+  }),
+});
+
+export const collections = { pages, portfolio, products, personalPosts, checkout, siteSettings };

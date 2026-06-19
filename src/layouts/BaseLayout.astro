@@ -1,12 +1,15 @@
 ---
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import CallToArms from '../components/CallToArms.astro';
 import '../styles/global.css';
 
 const {
   title = 'Snoodle Doodle HQ',
   description = 'A simple editable Astro site powered by Pages CMS.',
 } = Astro.props;
+
+const isLandingPage = Astro.url.pathname === '/';
 ---
 
 <!doctype html>
@@ -19,12 +22,13 @@ const {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
   </head>
-  <body>
-    <div class="site-shell">
+  <body class={isLandingPage ? 'body-landing' : undefined}>
+    <div class={isLandingPage ? 'site-shell is-landing-shell' : 'site-shell'}>
       <SiteHeader />
       <main>
         <slot />
       </main>
+      <CallToArms />
       <SiteFooter />
     </div>
   </body>
