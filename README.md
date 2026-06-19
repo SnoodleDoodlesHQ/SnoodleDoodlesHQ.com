@@ -1,43 +1,25 @@
-# Astro Starter Kit: Minimal
+# Snoodle Doodles HQ – checkout review page
+
+This package adds a `/checkout/` page so customers can review their basket before going to PayPal.
+
+Included:
+- checkout review page
+- basket icon now links to `/checkout/`
+- quantity editing
+- remove item button
+- subtotal, item count, shipping, handling and total
+- PayPal handoff form using the basket contents
+- editable checkout settings in `src/content/checkout/settings.md`
+- Pages CMS checkout settings collection
+
+Important:
+- replace `YOUR_PAYPAL_EMAIL@example.com` in `src/content/checkout/settings.md`
+- this is a simple static PayPal handoff, suitable for a basic prototype
+- for a serious store, use server-side PayPal Orders API checkout so prices cannot be tampered with in the browser
+
+Run:
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run build
 ```
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
