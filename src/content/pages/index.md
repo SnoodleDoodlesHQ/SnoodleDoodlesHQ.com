@@ -7,7 +7,7 @@ heroText: A playful little HQ for doodles, portfolio pieces, personal ramblings
   and shop experiments.
 heroBackgroundImage: /media/home-hero.svg
 heroBackgroundPosition: center center
-heroMailtoEmail: hello@snoodledoodles.example
+heroMailtoEmail: anxodoodles@gmail.com
 heroMailtoLabel: Email me
 heroBullets: |
   what
