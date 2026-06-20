@@ -90,7 +90,14 @@ content:
       - name: email
         label: About email address
         type: string
-        description: Used for the About page mailto button.
+        description: Used by the About page mailto link.
+      - name: bioDownloadFile
+        label: About PDF download file
+        type: file
+        description: PDF file used by the About page download link.
+      - name: bioDownloadLabel
+        label: About PDF download label
+        type: string
       - name: emailLabel
         label: About email button label
         type: string

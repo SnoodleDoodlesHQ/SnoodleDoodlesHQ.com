@@ -14,6 +14,8 @@ const bioBody = page.data.bioBody ?? '';
 const email = page.data.email;
 const emailLabel = page.data.emailLabel ?? 'Email me';
 const mailtoHref = email ? `mailto:${email}` : '';
+const bioDownloadFile = page.data.bioDownloadFile ?? '/media/about-bio-placeholder.pdf';
+const bioDownloadLabel = page.data.bioDownloadLabel ?? 'Download bio PDF';
 
 const fullBioTitle = page.data.fullBioTitle ?? 'Full Bio';
 const fullBioText = page.data.fullBioText ?? '';
@@ -32,12 +34,15 @@ const fullBioTextHtml = renderInlineMarkdown(fullBioText);
     <p class="scribble-kicker">Bio</p>
     <h1 id="about-bio-title">{bioTitle}</h1>
     {bioBody && <p set:html={bioBodyHtml} />}
+    <div class="about-action-links">
+      {bioDownloadFile && (
+        <a class="about-download-link" href={bioDownloadFile} download>{bioDownloadLabel}</a>
+      )}
 
-    {email && <p class="about-email-text">{email}</p>}
-
-    {mailtoHref && (
-      <a class="about-mailto-link" href={mailtoHref}>{emailLabel}</a>
-    )}
+      {mailtoHref && (
+        <a class="about-mailto-link" href={mailtoHref}>{emailLabel}</a>
+      )}
+    </div>
   </div>
 </section>
 

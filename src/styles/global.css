@@ -2603,31 +2603,6 @@ video {
 }
 
 
-.about-email-text {
-  margin-top: clamp(1rem, 2.5vw, 1.5rem);
-  color: var(--muted);
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.about-mailto-link {
-  display: inline-flex;
-  width: fit-content;
-  margin-top: 0.35rem;
-  color: var(--ink);
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-decoration: underline;
-  text-decoration-thickness: 0.12em;
-  text-underline-offset: 0.18em;
-  text-transform: none;
-}
-
-.about-mailto-link:hover,
-.about-mailto-link:focus-visible {
-  text-decoration-style: wavy;
-}
 .about-full-bio {
   padding: clamp(1rem, 4vw, 3rem) 0 clamp(3rem, 8vw, 6rem);
 }
@@ -2692,9 +2667,8 @@ video {
     text-align: center;
   }
 
-  .about-mailto-link {
-    margin-left: auto;
-    margin-right: auto;
+  .about-action-links {
+    align-items: center;
   }
 
   .about-full-bio-image-wrap {
@@ -2720,4 +2694,41 @@ video {
 .about-full-bio-text a:hover,
 .about-full-bio-text a:focus-visible {
   text-decoration-style: wavy;
+}
+
+
+
+
+/* About page action links: bio text -> PDF download -> mailto */
+.about-action-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin-top: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.about-download-link,
+.about-mailto-link {
+  display: inline-flex;
+  width: fit-content;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: underline;
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.18em;
+  text-transform: none;
+}
+
+.about-download-link:hover,
+.about-download-link:focus-visible,
+.about-mailto-link:hover,
+.about-mailto-link:focus-visible {
+  text-decoration-style: wavy;
+}
+
+.about-download-link::after {
+  content: " ↓";
 }

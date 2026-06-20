@@ -22,6 +22,8 @@ const pages = defineCollection({
     bioBody: z.string().optional(),
     email: z.string().optional(),
     emailLabel: z.string().optional(),
+    bioDownloadFile: z.string().optional(),
+    bioDownloadLabel: z.string().optional(),
     fullBioTitle: z.string().optional(),
     fullBioText: z.string().optional(),
     fullBioImage: z.string().optional(),
