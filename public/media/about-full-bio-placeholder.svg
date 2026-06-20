@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Full bio placeholder</title>
+  <desc id="desc">A tall handmade placeholder artwork with doodles and marks.</desc>
+  <rect width="900" height="1100" fill="#fffefa"/>
+  <rect x="65" y="65" width="770" height="970" rx="42" fill="#f8f4e9" stroke="#151515" stroke-width="14"/>
+  <path d="M190 270c80-115 245-120 330-20s45 265-75 315-255-25-260-165" fill="none" stroke="#151515" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="340" cy="365" r="22" fill="#151515"/>
+  <circle cx="500" cy="365" r="22" fill="#151515"/>
+  <path d="M340 505c45 35 120 35 165 0" fill="none" stroke="#151515" stroke-width="15" stroke-linecap="round"/>
+  <path d="M625 210l60-70M690 285l95-10M640 660l92 80M225 680l-88 74M190 185l-82-50" fill="none" stroke="#151515" stroke-width="12" stroke-linecap="round"/>
+  <path d="M205 850h490M250 915h400" fill="none" stroke="#151515" stroke-width="12" stroke-linecap="round" stroke-dasharray="2 30"/>
+</svg>

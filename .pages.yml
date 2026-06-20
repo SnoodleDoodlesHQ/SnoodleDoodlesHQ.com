@@ -78,6 +78,31 @@ content:
         label: Navigation order
         type: number
         default: 99
+      - name: bioTitle
+        label: About bio title
+        type: string
+      - name: bioImage
+        label: About profile image
+        type: image
+      - name: bioBody
+        label: About short bio
+        type: text
+      - name: email
+        label: About email address
+        type: string
+        description: Used for the About page mailto button.
+      - name: emailLabel
+        label: About email button label
+        type: string
+      - name: fullBioTitle
+        label: Full bio title
+        type: string
+      - name: fullBioText
+        label: Full bio text
+        type: text
+      - name: fullBioImage
+        label: Full bio image
+        type: image
       - name: body
         label: Page body
         type: rich-text

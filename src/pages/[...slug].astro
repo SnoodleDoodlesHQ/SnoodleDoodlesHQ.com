@@ -3,7 +3,8 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
-  const pages = await getCollection('pages', ({ data }) => data.published !== false);
+  const RESERVED_STATIC_SLUGS = new Set(['about']);
+const pages = await getCollection('pages', ({ data, id }) => data.published !== false && !RESERVED_STATIC_SLUGS.has(id));
 
   return pages
     .filter((page) => !['index', 'contact', 'personal'].includes(page.id))

@@ -1,4 +1,5 @@
 ---
+import { renderInlineMarkdown } from '../utils/inlineMarkdown';
 import { getCollection } from 'astro:content';
 
 const { page } = Astro.props;
@@ -21,6 +22,7 @@ const heroBullets = (page.data.heroBullets ?? '')
 
 const hasLandingBody = Boolean(page.body?.trim());
 const heroMailtoHref = heroMailtoEmail ? `mailto:${heroMailtoEmail}` : '';
+const heroTextHtml = renderInlineMarkdown(heroText);
 ---
 
 <section
@@ -34,7 +36,7 @@ const heroMailtoHref = heroMailtoEmail ? `mailto:${heroMailtoEmail}` : '';
     <p class="scribble-kicker">{heroKicker}</p>
     <h1 id="landing-title" class="scribble-title">{heroTitle}</h1>
 
-    {heroText && <p class="landing-intro">{heroText}</p>}
+    {heroText && <p class="landing-intro" set:html={heroTextHtml} />}
 
     {heroMailtoHref && (
       <a class="landing-mailto" href={heroMailtoHref}>{heroMailtoLabel}</a>

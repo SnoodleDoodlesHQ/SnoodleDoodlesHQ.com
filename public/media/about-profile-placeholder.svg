@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+  <title id="title">Profile placeholder</title>
+  <desc id="desc">A circular placeholder portrait with a simple doodle face.</desc>
+  <rect width="600" height="600" fill="#fffefa"/>
+  <circle cx="300" cy="300" r="250" fill="#f8f4e9" stroke="#151515" stroke-width="16"/>
+  <circle cx="230" cy="255" r="20" fill="#151515"/>
+  <circle cx="370" cy="255" r="20" fill="#151515"/>
+  <path d="M235 375c45 45 135 45 180 0" fill="none" stroke="#151515" stroke-width="16" stroke-linecap="round"/>
+  <path d="M155 180c50-75 170-95 275-45 45 21 78 55 95 98" fill="none" stroke="#151515" stroke-width="14" stroke-linecap="round"/>
+  <path d="M150 455c65-70 235-88 300 0" fill="none" stroke="#151515" stroke-width="14" stroke-linecap="round"/>
+</svg>
