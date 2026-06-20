@@ -2300,6 +2300,31 @@ body.modal-open {
   }
 }
 
+
+/* Homepage mailto CTA */
+.landing-mailto {
+  display: inline-flex;
+  width: fit-content;
+  margin: clamp(1rem, 2.5vw, 1.5rem) 0 0;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.62rem 1rem;
+  background: rgba(255, 254, 250, 0.78);
+  color: var(--ink);
+  box-shadow: 5px 6px 0 rgba(21, 21, 21, 0.055);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transform: rotate(-1deg);
+}
+
+.landing-mailto:hover,
+.landing-mailto:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+
 /* Homepage full-screen landing banner and floating/sticky navigation */
 .body-landing {
   background: var(--paper);
@@ -2493,4 +2518,31 @@ body.modal-open {
     min-height: 320px;
     margin-bottom: 0;
   }
+}
+
+
+/* Front page menu uses the same top navbar as every other page */
+.is-landing-shell .site-header {
+  position: sticky;
+  top: 0;
+  left: auto;
+  width: 100%;
+  margin: 0;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+  background: rgba(255, 254, 250, 0.94);
+  box-shadow: 0 8px 24px rgba(21, 21, 21, 0.09);
+  transform: none;
+}
+
+.is-landing-shell .site-header.is-landing-nav-pinned {
+  border-radius: 0;
+  transform: none;
+}
+
+.is-landing-shell .landing-hero {
+  min-height: calc(100vh - 66px);
+  min-height: calc(100svh - 66px);
 }

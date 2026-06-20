@@ -55,10 +55,14 @@ content:
         label: Homepage hero background position
         type: string
         description: Example: center center, 50% 40%, top center.
-      - name: emailPlaceholder
-        label: Homepage email placeholder
+      - name: heroMailtoEmail
+        label: Homepage mailto email
         type: string
-      - name: heroBullets
+        description: Email address used by the homepage mailto link.
+      - name: heroMailtoLabel
+        label: Homepage mailto link label
+        type: string
+        description: Button text for the homepage mailto link.- name: heroBullets
         label: Homepage bullet list
         type: text
         description: Put one bullet per line. Used on the homepage.

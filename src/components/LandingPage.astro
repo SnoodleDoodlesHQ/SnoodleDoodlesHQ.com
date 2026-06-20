@@ -12,13 +12,15 @@ const heroText = page.data.heroText;
 const heroKicker = page.data.heroKicker ?? 'Fresh nonsense, useful art';
 const heroBackgroundImage = page.data.heroBackgroundImage ?? '/media/home-hero.svg';
 const heroBackgroundPosition = page.data.heroBackgroundPosition ?? 'center center';
-const emailPlaceholder = page.data.emailPlaceholder ?? 'email';
+const heroMailtoEmail = page.data.heroMailtoEmail;
+const heroMailtoLabel = page.data.heroMailtoLabel ?? 'Email me';
 const heroBullets = (page.data.heroBullets ?? '')
   .split('\n')
   .map((item: string) => item.trim())
   .filter(Boolean);
 
 const hasLandingBody = Boolean(page.body?.trim());
+const heroMailtoHref = heroMailtoEmail ? `mailto:${heroMailtoEmail}` : '';
 ---
 
 <section
@@ -34,12 +36,9 @@ const hasLandingBody = Boolean(page.body?.trim());
 
     {heroText && <p class="landing-intro">{heroText}</p>}
 
-    <form class="email-sketch" action="/contact/" method="get">
-      <label class="visually-hidden" for="landing-email">Email address</label>
-      <input id="landing-email" name="email" type="email" placeholder={emailPlaceholder} />
-      <button type="submit">Join</button>
-    </form>
-
+    {heroMailtoHref && (
+      <a class="landing-mailto" href={heroMailtoHref}>{heroMailtoLabel}</a>
+    )}
     {heroBullets.length > 0 && (
       <ul class="scribble-list">
         {heroBullets.map((item: string) => <li>{item}</li>)}
