@@ -33,8 +33,10 @@ const fullBioTextHtml = renderInlineMarkdown(fullBioText);
     <h1 id="about-bio-title">{bioTitle}</h1>
     {bioBody && <p set:html={bioBodyHtml} />}
 
+    {email && <p class="about-email-text">{email}</p>}
+
     {mailtoHref && (
-      <a class="about-mailto-button" href={mailtoHref}>{emailLabel}</a>
+      <a class="about-mailto-link" href={mailtoHref}>{emailLabel}</a>
     )}
   </div>
 </section>
