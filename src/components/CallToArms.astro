@@ -56,8 +56,8 @@ const mailto = normalizeMailto(settings?.mailto);
     </div>
 
     <div class="call-to-arms-column call-to-arms-main">
-      <p class="scribble-kicker">Call to arms</p>
-      <h2 id="call-to-arms-title">{settings.title}</h2>
+      <h2 id="call-to-arms-title" class="call-to-arms-heading">Call to arms</h2>
+      <p class="call-to-arms-subtitle">{settings.title}</p>
       {mailto && (
         <a class="call-to-arms-mail" href={mailto}>{settings.mailLabel || settings.mailto}</a>
       )}
