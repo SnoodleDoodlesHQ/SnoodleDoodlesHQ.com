@@ -6,69 +6,25 @@ shortDescription: >-
   ⋆｡°✩❤ DESCRIPTION ❤✩°｡⋆
 
 
-  ♡ Drift through the galaxy in the ultimate space cat hoodie!!!
-
-  ♡ This cosy hoodie features custom cosmic cat artwork on the front, back, and
-  sleeves for a full celestial streetwear look ✨🐈🌌
-
-  ♡ Soft, warm, and perfect for chilly nights, conventions, gaming sessions, or
-  just looking cooler than everyone else in the room ♡
-
-  ♡ Designed with a relaxed unisex fit for comfy everyday wear!
-
-  ♡ PLEASE check the sizing chart before ordering! I highly recommend comparing
-  measurements with your favourite hoodie for the best fit ♡
+  ♡ Ultimate space cat streetwear with custom galaxy art on the front, back, and
+  sleeves! ✨🐈🌌♡ Soft, warm, and relaxed unisex fit—perfect for gaming or
+  chilly nights.♡ Check size chart before ordering! Compare with your favourite
+  hoodie.
 
 
-  ✨ Features 
-
-  • Custom front, back & sleeve artwork (again drawn by me, SnoodleDoodles) 
-
-  • Cosy fleece interior for everyday comfort 
-
-  • Large front pouch pocket 
-
-  • Double-lined hood with matching drawcord 
-
-  • Unisex classic fit 
-
-  • Soft, durable fabric blend 
+  ✨ Features & Specs• Art by SnoodleDoodles | Gildan 18500 (50% Cotton / 50%
+  Poly, 8.0 oz)• Cosy fleece interior, large front pocket, double-lined hood.•
+  Ethically grown US cotton | Made to order via Printful.• Note: Colours and
+  whites may vary slightly from screen images.
 
 
-  ⋆｡°✩Product Info ✩°｡⋆
+  ⚠️ Care & Safety• Wash cold (max 30°C), tumble dry medium, low iron. Do not
+  dry clean.• For adults. Made in Bangladesh.
 
 
-  Gildan Heavy Blend™ 18500 
-
-  50% cotton / 50% polyester 
-
-  Medium-heavy fabric (8.0 oz/yd²) 
-
-  Heather Sport colours: 60% polyester / 40% cotton 
-
-  Made using ethically grown US cotton 
-
-  White colour may appear slightly off-white due to fabric properties 
-
-  Colours may vary slightly depending on screen settings 
-
-  Made to order via Printful 
-
-
-  Made to Order: Each hoodie is printed especially for you after purchase.
-  Delivery times can vary based on production volume and shipping destination. 
-
-
-  EU representative: HONSON VENTURES LIMITED, gpsr@honsonventures.com, 3,
-  Gnaftis House, flat 102, Limassol, Mesa Geitonia, 4003, CY
-
-  Product information: Gildan 18500, 2-year warranty in the EU and Northern
-  Ireland as per Directive 1999/44/EC
-
-  Warnings, Hazard: For adults, Made in Bangladesh
-
-  Care instructions: Machine wash: cold (max 30C or 90F), Non-chlorine: bleach
-  as needed, Tumble dry: medium, Iron, steam or dry: low heat, Do not dryclean
+  🇪🇺 EU Rep & Warranty• 2-year EU/NI warranty (Directive 1999/44/EC).• HONSON
+  VENTURES LTD, gpsr@honsonventures.com, Flat 102, 3 Gnaftis House, Limassol,
+  4003, CY.
 images:
   - /media/cosmic-cat-hoodie-space-cat-graphic-hoodie-with-custom-front-back-sleeve-design.jpg
   - /media/cosmic-cat-hoodie-space-cat-graphic-hoodie-with-custom-front-back-sleeve-design-1.jpg
