@@ -5,15 +5,6 @@ const heroTitle = page?.heroTitle ?? page?.title ?? 'Personal';
 const heroText = page?.heroText ?? 'Images, videos, notes and stray little things.';
 const heroKicker = page?.heroKicker ?? 'Personal';
 
-const formatDate = (date) => {
-  if (!date) return '';
-  return new Intl.DateTimeFormat('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  }).format(date);
-};
-
 const youtubeIdFromUrl = (url) => {
   if (!url) return '';
 
@@ -60,11 +51,10 @@ const getEmbedUrl = (post) => {
     <div class="personal-grid">
       {posts.map((post, index) => {
         const embedUrl = getEmbedUrl(post);
-        const dateLabel = formatDate(post.date);
         const cardClass = `personal-card personal-card-${post.size || 'medium'} personal-card-${(index % 6) + 1}`;
 
         return (
-          <article class={cardClass}>
+          <article class={cardClass} aria-label={post.title}>
             <div class="personal-card-media">
               {post.type === 'video' && embedUrl ? (
                 <iframe
@@ -85,16 +75,6 @@ const getEmbedUrl = (post) => {
               {post.type === 'video' && !embedUrl && post.image && (
                 <span class="personal-video-badge">Video</span>
               )}
-            </div>
-
-            <div class="personal-card-copy">
-              <div class="personal-card-meta">
-                <span>{post.type}</span>
-                {dateLabel && <time datetime={post.date?.toISOString?.()}>{dateLabel}</time>}
-              </div>
-
-              <h3>{post.title}</h3>
-              {post.description && <p>{post.description}</p>}
             </div>
           </article>
         );
