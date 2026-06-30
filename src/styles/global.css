@@ -13,6 +13,8 @@
   --line: rgba(21, 21, 21, 0.88);
   --faint-line: rgba(21, 21, 21, 0.18);
   --shadow-sketch: 8px 10px 0 rgba(21, 21, 21, 0.04);
+  --site-background-image: url("/images/Illustration2.png");
+  --site-background-overlay: linear-gradient(rgba(255, 254, 250, 0.44), rgba(255, 254, 250, 0.44));
   font-family: var(--font-body);
 }
 
@@ -33,18 +35,6 @@ body {
   color: var(--ink);
   background: #191919;
   line-height: 1.5;
-}
-
-body::before {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-  opacity: 0.05;
-  background-image:
-    linear-gradient(0deg, transparent 24px, var(--ink) 25px, transparent 26px),
-    linear-gradient(90deg, transparent 24px, var(--ink) 25px, transparent 26px);
-  background-size: 26px 26px;
 }
 
 a {
@@ -68,9 +58,14 @@ textarea {
   flex-direction: column;
   overflow: visible;
   border: 0;
-  background:
+  background-color: var(--paper);
+  background-image:
     radial-gradient(circle at 14% 4%, rgba(0, 0, 0, 0.035), transparent 14rem),
-    var(--paper);
+    var(--site-background-overlay),
+    var(--site-background-image);
+  background-position: center top;
+  background-repeat: no-repeat, no-repeat, repeat-y;
+  background-size: auto, auto, 100% auto;
 }
 
 .site-header {
@@ -816,13 +811,14 @@ h1,
   }
 
   .header-actions {
-    position: absolute;
-    right: 1rem;
-    top: 0.8rem;
+    position: static;
+    gap: 0.5rem;
   }
 
   .shop-button {
-    display: none;
+    min-width: 0;
+    padding: 0.34rem 0.58rem 0.3rem;
+    font-size: 0.78rem;
   }
 
   .landing-hero {
@@ -2490,6 +2486,14 @@ body.product-lightbox-open {
   padding-right: max(1.2rem, calc((100vw - 1360px) / 2));
 }
 
+.site-shell.is-landing-shell .portfolio-wall {
+  width: var(--page-width);
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 @media (max-width: 640px) {
   .site-shell {
     --page-width: calc(100vw - 20px);
@@ -2498,6 +2502,7 @@ body.product-lightbox-open {
   .site-shell:not(.is-landing-shell) .page-hero,
   .site-shell:not(.is-landing-shell) .content-card,
   .site-shell:not(.is-landing-shell) .portfolio-wall,
+  .site-shell.is-landing-shell .portfolio-wall,
   .site-shell:not(.is-landing-shell) .shop-grid-wrap,
   .site-shell:not(.is-landing-shell) .personal-wall,
   .site-shell:not(.is-landing-shell) .contact-layout,
@@ -2511,10 +2516,6 @@ body.product-lightbox-open {
   background: var(--paper);
 }
 
-.body-landing::before {
-  opacity: 0.035;
-}
-
 .site-shell.is-landing-shell {
   --page-width: min(1360px, calc(100vw - 32px));
   width: 100%;
@@ -2522,7 +2523,6 @@ body.product-lightbox-open {
   margin: 0;
   border: 0;
   overflow: visible;
-  background: var(--paper);
 }
 
 
@@ -2589,12 +2589,6 @@ body.product-lightbox-open {
 
 @media (max-width: 640px) {
   
-  .is-landing-shell .header-actions {
-    position: absolute;
-    right: 0.8rem;
-    top: 0.65rem;
-  }
-
   .is-landing-shell .landing-hero .hero-copy {
     padding-inline: 1rem;
     padding-bottom: 2rem;
