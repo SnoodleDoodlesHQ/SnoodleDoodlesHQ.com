@@ -1,9 +1,9 @@
 ---
-title: Moon Illustation
+title: Shrimp
 description: A short embedded video placeholder for animation tests.
 date: 2026-01-12
-type: video
-image: /media/recreationofcharacter.png
+type: image
+image: /media/shrimp.gif
 imageAlt: Hand-drawn sample artwork for Tiny animation test.
 youtubeId: dQw4w9WgXcQ
 published: true
