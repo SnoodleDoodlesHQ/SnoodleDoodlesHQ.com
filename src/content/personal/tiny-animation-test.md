@@ -1,5 +1,5 @@
 ---
-title: Tiny animation test
+title: Moon Illustation
 description: A short embedded video placeholder for animation tests.
 date: 2026-01-12
 type: video
