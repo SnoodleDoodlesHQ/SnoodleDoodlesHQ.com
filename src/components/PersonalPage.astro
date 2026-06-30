@@ -27,6 +27,30 @@ const getEmbedUrl = (post) => {
   const id = post.youtubeId || youtubeIdFromUrl(post.videoUrl);
   return id ? `https://www.youtube-nocookie.com/embed/${id}` : '';
 };
+
+const personalGalleryItems = [];
+const personalPosts = posts.map((post, index) => {
+  const embedUrl = getEmbedUrl(post);
+  const isEmbeddedVideo = post.type === 'video' && embedUrl;
+  const isZoomableImage = Boolean(post.image) && !isEmbeddedVideo;
+  const galleryIndex = isZoomableImage ? personalGalleryItems.length : -1;
+
+  if (isZoomableImage) {
+    personalGalleryItems.push({
+      src: post.image,
+      title: post.title,
+      alt: post.imageAlt ?? post.title,
+    });
+  }
+
+  return {
+    ...post,
+    embedUrl,
+    galleryIndex,
+    isEmbeddedVideo,
+    cardClass: `personal-card personal-card-${post.size || 'medium'} personal-card-${(index % 6) + 1}`,
+  };
+});
 ---
 
 <section class="personal-page">
@@ -49,23 +73,26 @@ const getEmbedUrl = (post) => {
     </div>
 
     <div class="personal-grid">
-      {posts.map((post, index) => {
-        const embedUrl = getEmbedUrl(post);
-        const cardClass = `personal-card personal-card-${post.size || 'medium'} personal-card-${(index % 6) + 1}`;
-
-        return (
-          <article class={cardClass} aria-label={post.title}>
+      {personalPosts.map((post) => (
+          <article class={post.cardClass} aria-label={post.title}>
             <div class="personal-card-media">
-              {post.type === 'video' && embedUrl ? (
+              {post.isEmbeddedVideo ? (
                 <iframe
-                  src={embedUrl}
+                  src={post.embedUrl}
                   title={post.title}
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
                 ></iframe>
               ) : post.image ? (
-                <img src={post.image} alt={post.imageAlt ?? ''} loading="lazy" />
+                <button
+                  type="button"
+                  class="personal-image-button"
+                  data-personal-lightbox-open={post.galleryIndex}
+                  aria-label={`Open ${post.title} full screen`}
+                >
+                  <img src={post.image} alt={post.imageAlt ?? ''} loading="lazy" />
+                </button>
               ) : (
                 <div class="personal-text-card-art" aria-hidden="true">
                   <span>{post.title.slice(0, 1)}</span>
@@ -77,8 +104,122 @@ const getEmbedUrl = (post) => {
               )}
             </div>
           </article>
-        );
-      })}
+      ))}
     </div>
   </section>
 </section>
+
+{personalGalleryItems.length > 0 && (
+  <>
+    <dialog class="product-lightbox personal-lightbox" data-personal-lightbox aria-label="Personal image gallery">
+      <button type="button" class="product-lightbox-close" data-personal-lightbox-close aria-label="Close full screen image">Close x</button>
+      <button
+        type="button"
+        class="product-gallery-arrow product-lightbox-arrow product-lightbox-arrow-left"
+        data-personal-lightbox-prev
+        aria-label="Previous personal image"
+        hidden={personalGalleryItems.length < 2}
+      >
+        &#8249;
+      </button>
+      <img
+        class="product-lightbox-image personal-lightbox-image"
+        src={personalGalleryItems[0].src}
+        alt={personalGalleryItems[0].alt}
+        data-personal-lightbox-image
+      />
+      <button
+        type="button"
+        class="product-gallery-arrow product-lightbox-arrow product-lightbox-arrow-right"
+        data-personal-lightbox-next
+        aria-label="Next personal image"
+        hidden={personalGalleryItems.length < 2}
+      >
+        &#8250;
+      </button>
+      <p class="product-lightbox-counter" data-personal-lightbox-counter hidden={personalGalleryItems.length < 2}>1 / {personalGalleryItems.length}</p>
+    </dialog>
+
+    <div id="personal-gallery-data" data-gallery={JSON.stringify(personalGalleryItems)} hidden></div>
+
+    <script is:inline>
+      const personalGalleryDataNode = document.getElementById('personal-gallery-data');
+      const personalGalleryItems = personalGalleryDataNode
+        ? JSON.parse(personalGalleryDataNode.dataset.gallery || '[]')
+        : [];
+      const personalLightbox = document.querySelector('[data-personal-lightbox]');
+      const personalLightboxImage = document.querySelector('[data-personal-lightbox-image]');
+      const personalLightboxCounter = document.querySelector('[data-personal-lightbox-counter]');
+      const personalLightboxClose = document.querySelector('[data-personal-lightbox-close]');
+      const personalLightboxPrev = document.querySelector('[data-personal-lightbox-prev]');
+      const personalLightboxNext = document.querySelector('[data-personal-lightbox-next]');
+      let activePersonalImageIndex = 0;
+
+      const syncPersonalLightboxImage = () => {
+        const item = personalGalleryItems[activePersonalImageIndex];
+        if (!item || !personalLightboxImage) return;
+
+        personalLightboxImage.src = item.src;
+        personalLightboxImage.alt = item.alt || item.title || `Personal image ${activePersonalImageIndex + 1}`;
+
+        if (personalLightboxCounter) {
+          personalLightboxCounter.textContent = `${activePersonalImageIndex + 1} / ${personalGalleryItems.length}`;
+        }
+      };
+
+      const updatePersonalLightbox = (nextIndex) => {
+        if (!personalGalleryItems.length) return;
+
+        activePersonalImageIndex = ((nextIndex % personalGalleryItems.length) + personalGalleryItems.length) % personalGalleryItems.length;
+        syncPersonalLightboxImage();
+      };
+
+      const openPersonalLightbox = (index) => {
+        if (!personalLightbox || !personalGalleryItems.length) return;
+
+        updatePersonalLightbox(index);
+        document.body.classList.add('product-lightbox-open');
+
+        if (typeof personalLightbox.showModal === 'function') {
+          personalLightbox.showModal();
+        } else {
+          personalLightbox.setAttribute('open', '');
+        }
+      };
+
+      const closePersonalLightbox = () => {
+        if (!personalLightbox) return;
+
+        document.body.classList.remove('product-lightbox-open');
+
+        if (typeof personalLightbox.close === 'function') {
+          personalLightbox.close();
+        } else {
+          personalLightbox.removeAttribute('open');
+        }
+      };
+
+      document.querySelectorAll('[data-personal-lightbox-open]').forEach((button) => {
+        button.addEventListener('click', () => {
+          openPersonalLightbox(Number(button.dataset.personalLightboxOpen || 0));
+        });
+      });
+
+      personalLightboxPrev?.addEventListener('click', () => updatePersonalLightbox(activePersonalImageIndex - 1));
+      personalLightboxNext?.addEventListener('click', () => updatePersonalLightbox(activePersonalImageIndex + 1));
+      personalLightboxClose?.addEventListener('click', closePersonalLightbox);
+      personalLightbox?.addEventListener('click', (event) => {
+        if (event.target === personalLightbox) closePersonalLightbox();
+      });
+      personalLightbox?.addEventListener('close', () => {
+        document.body.classList.remove('product-lightbox-open');
+      });
+      document.addEventListener('keydown', (event) => {
+        if (!personalLightbox?.open) return;
+
+        if (event.key === 'ArrowLeft') updatePersonalLightbox(activePersonalImageIndex - 1);
+        if (event.key === 'ArrowRight') updatePersonalLightbox(activePersonalImageIndex + 1);
+      });
+    </script>
+  </>
+)}

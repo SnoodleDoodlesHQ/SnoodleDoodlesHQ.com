@@ -2636,6 +2636,31 @@ body.product-lightbox-open {
   min-height: 0;
 }
 
+.personal-image-button {
+  width: 100%;
+  display: block;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  cursor: zoom-in;
+  line-height: 0;
+}
+
+.personal-image-button:focus-visible {
+  outline: 3px solid rgba(21, 21, 21, 0.28);
+  outline-offset: -6px;
+}
+
+.personal-image-button img {
+  transition: transform 170ms ease;
+}
+
+.personal-image-button:hover img,
+.personal-image-button:focus-visible img {
+  transform: scale(1.015);
+}
+
 .personal-card-media img {
   object-fit: contain;
 }
