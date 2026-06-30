@@ -1,5 +1,5 @@
 ---
-title: Blue image
+title: Shrimp
 description: A short embedded video placeholder for animation tests.
 date: 2026-01-12
 type: image
