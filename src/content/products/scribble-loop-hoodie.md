@@ -3,7 +3,7 @@ title: "Cosmic Cat Hoodie "
 category: apparel
 price: 60
 shortDescription: >-
-  ⋆｡°✩❤ COSMIC SPACE CAT HOODIE ❤✩°｡⋆
+  ⋆｡°✩❤ DESCRIPTION ❤✩°｡⋆
 
 
   ♡ Drift through the galaxy in the ultimate space cat hoodie!!!
