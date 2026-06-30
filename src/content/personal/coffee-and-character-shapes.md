@@ -9,4 +9,4 @@ order: 4
 size: tall
 videoUrl: https://file.garden/ZofWAp8J3EMfr0Tv/ArtFightA2%20Traffic%20Cone%20Dinosaur.png
 ---
-Replace this with a longer personal post, process note, caption, or embedded media context.
+https://file.garden/ZofWAp8J3EMfr0Tv/ArtFightA2%20Traffic%20Cone%20Dinosaur.png
