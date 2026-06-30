@@ -9,4 +9,4 @@ order: 4
 size: tall
 videoUrl: https://file.garden/ZofWAp8J3EMfr0Tv/ArtFightA2%20Traffic%20Cone%20Dinosaur.png
 ---
-https://file.garden/ZofWAp8J3EMfr0Tv/ArtFightA2%20Traffic%20Cone%20Dinosaur.png
+<img src="https://file.garden/ZofWAp8J3EMfr0Tv/ArtFightA1Badger%20Chamois.png" width="277">
