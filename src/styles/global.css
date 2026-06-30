@@ -14,7 +14,6 @@
   --faint-line: rgba(21, 21, 21, 0.18);
   --shadow-sketch: 8px 10px 0 rgba(21, 21, 21, 0.04);
   --site-background-image: url("/images/Illustration2.png");
-  --site-background-overlay: linear-gradient(rgba(255, 254, 250, 0.44), rgba(255, 254, 250, 0.44));
   font-family: var(--font-body);
 }
 
@@ -59,13 +58,10 @@ textarea {
   overflow: visible;
   border: 0;
   background-color: var(--paper);
-  background-image:
-    radial-gradient(circle at 14% 4%, rgba(0, 0, 0, 0.035), transparent 14rem),
-    var(--site-background-overlay),
-    var(--site-background-image);
+  background-image: var(--site-background-image);
   background-position: center top;
-  background-repeat: no-repeat, no-repeat, repeat-y;
-  background-size: auto, auto, 100% auto;
+  background-repeat: repeat-y;
+  background-size: 100% auto;
 }
 
 .site-header {
