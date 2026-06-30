@@ -3,7 +3,7 @@ title: "Cosmic Cat Hoodie "
 category: apparel
 price: 60
 shortDescription: >-
-  ⋆｡°✩❤ DESCRIPTION ❤✩°｡⋆
+  ⋆｡°✩❤ DESCRIPTION ❤✩°｡⋆ 
 
 
   ♡ Ultimate space cat streetwear with custom galaxy art on the front, back, and
