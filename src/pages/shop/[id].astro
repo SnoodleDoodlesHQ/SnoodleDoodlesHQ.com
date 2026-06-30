@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductPage from '../../components/ProductPage.astro';
+
+export async function getStaticPaths() {
+  const normalizeImages = (data: any) => {
+    const images = Array.isArray(data.images) && data.images.length > 0
+      ? data.images
+      : [data.image1, data.image2, data.image3, data.image4].filter(Boolean);
+
+    return images.filter((image: string | undefined) => Boolean(image));
+  };
+
+  const products = (await getCollection('products', ({ data }) => data.published !== false))
+    .map((product) => ({
+      id: product.id,
+      title: product.data.title,
+      category: product.data.category,
+      price: product.data.price,
+      shortDescription: product.data.shortDescription,
+      images: normalizeImages(product.data),
+    }))
+    .filter((product) => product.images.length > 0);
+
+  return products.map((product) => ({
+    params: { id: product.id },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const title = `${product.title} | Snoodle Doodles HQ`;
+const description = product.shortDescription.replace(/\s+/g, ' ').slice(0, 160);
+---
+
+<BaseLayout title={title} description={description}>
+  <ProductPage product={product} />
+</BaseLayout>

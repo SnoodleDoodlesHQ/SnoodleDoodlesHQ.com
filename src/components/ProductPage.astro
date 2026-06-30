@@ -1,0 +1,297 @@
+---
+const { product } = Astro.props;
+
+const categoryLabels = {
+  stickers: 'Stickers',
+  prints: 'Prints',
+  'keychains-pins': 'Keychains / pins',
+  apparel: 'Apparel',
+};
+
+const categoryLabel = categoryLabels[product.category] ?? product.category;
+const images = product.images ?? [];
+const price = Number(product.price);
+const productData = {
+  id: product.id,
+  title: product.title,
+  category: product.category,
+  categoryLabel,
+  price,
+  shortDescription: product.shortDescription,
+  images,
+};
+---
+
+<section class="product-detail-page" data-product-page>
+  <a class="product-back-link" href="/shop/">Back to shop</a>
+
+  <article class="product-detail-layout" data-product-id={product.id}>
+    <section class={images.length > 1 ? 'product-detail-media has-thumbnails' : 'product-detail-media'} aria-label={`${product.title} images`}>
+      {images.length > 1 && (
+        <div class="product-thumbnails" aria-label="Choose product image">
+          {images.map((image, index) => (
+            <button
+              type="button"
+              class="product-thumbnail-button"
+              data-product-thumb={index}
+              aria-label={`${product.title}, image ${index + 1}`}
+              aria-pressed={index === 0 ? 'true' : 'false'}
+            >
+              <img src={image} alt="" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      )}
+
+      <div class="product-main-image-wrap">
+        <button
+          type="button"
+          class="product-gallery-arrow product-gallery-arrow-left"
+          data-product-prev
+          aria-label="Previous product image"
+          hidden={images.length < 2}
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          class="product-main-image-button"
+          data-product-fullscreen-open
+          aria-label={`Open ${product.title} image full screen`}
+        >
+          <img
+            class="product-main-image"
+            src={images[0]}
+            alt={`${product.title}, image 1 of ${images.length}`}
+            data-product-main-image
+          />
+        </button>
+        <button
+          type="button"
+          class="product-gallery-arrow product-gallery-arrow-right"
+          data-product-next
+          aria-label="Next product image"
+          hidden={images.length < 2}
+        >
+          ›
+        </button>
+        <p class="product-image-counter" data-product-counter hidden={images.length < 2}>1 / {images.length}</p>
+      </div>
+    </section>
+
+    <section class="product-detail-info" aria-labelledby="product-detail-title">
+      <div class="shop-card-meta product-detail-meta">
+        <span class="shop-badge">{categoryLabel}</span>
+        <span class="shop-price">£{price.toFixed(2)}</span>
+      </div>
+
+      <h1 id="product-detail-title">{product.title}</h1>
+
+      <div class="product-purchase-panel">
+        <div class="qty-control" data-product-qty-control>
+          <button type="button" class="qty-button" data-qty-down aria-label={`Decrease quantity for ${product.title}`}>−</button>
+          <input
+            type="number"
+            class="qty-input"
+            min="1"
+            step="1"
+            value="1"
+            inputmode="numeric"
+            aria-label={`Quantity for ${product.title}`}
+          />
+          <button type="button" class="qty-button" data-qty-up aria-label={`Increase quantity for ${product.title}`}>+</button>
+        </div>
+
+        <button type="button" class="add-basket-button product-add-button" data-product-add>Add to basket</button>
+        <a class="product-checkout-link" href="/checkout/">Checkout</a>
+      </div>
+
+      <div class="product-detail-description">{product.shortDescription}</div>
+    </section>
+  </article>
+</section>
+
+<dialog class="product-lightbox" data-product-lightbox aria-label={`${product.title} full screen image`}>
+  <button type="button" class="product-lightbox-close" data-product-fullscreen-close aria-label="Close full screen image">Close x</button>
+  <button
+    type="button"
+    class="product-gallery-arrow product-lightbox-arrow product-lightbox-arrow-left"
+    data-product-lightbox-prev
+    aria-label="Previous product image"
+    hidden={images.length < 2}
+  >
+    ‹
+  </button>
+  <img class="product-lightbox-image" src={images[0]} alt={`${product.title}, image 1 of ${images.length}`} data-product-lightbox-image />
+  <button
+    type="button"
+    class="product-gallery-arrow product-lightbox-arrow product-lightbox-arrow-right"
+    data-product-lightbox-next
+    aria-label="Next product image"
+    hidden={images.length < 2}
+  >
+    ›
+  </button>
+  <p class="product-lightbox-counter" data-product-lightbox-counter hidden={images.length < 2}>1 / {images.length}</p>
+</dialog>
+
+<div id="product-page-data" data-product={JSON.stringify(productData)} hidden></div>
+
+<script is:inline>
+  const PRODUCT_CART_KEY = 'snoodle-doodles-cart';
+  const productDataNode = document.getElementById('product-page-data');
+  const product = productDataNode ? JSON.parse(productDataNode.dataset.product || '{}') : {};
+  const images = Array.isArray(product.images) ? product.images : [];
+  const mainImage = document.querySelector('[data-product-main-image]');
+  const fullscreenOpenButton = document.querySelector('[data-product-fullscreen-open]');
+  const lightbox = document.querySelector('[data-product-lightbox]');
+  const lightboxImage = document.querySelector('[data-product-lightbox-image]');
+  const lightboxCounter = document.querySelector('[data-product-lightbox-counter]');
+  const lightboxCloseButton = document.querySelector('[data-product-fullscreen-close]');
+  const lightboxPrevButton = document.querySelector('[data-product-lightbox-prev]');
+  const lightboxNextButton = document.querySelector('[data-product-lightbox-next]');
+  const counter = document.querySelector('[data-product-counter]');
+  const thumbButtons = Array.from(document.querySelectorAll('[data-product-thumb]'));
+  const prevButton = document.querySelector('[data-product-prev]');
+  const nextButton = document.querySelector('[data-product-next]');
+  const qtyWrap = document.querySelector('[data-product-qty-control]');
+  const addButton = document.querySelector('[data-product-add]');
+  let activeImageIndex = 0;
+
+  const clampQty = (value) => {
+    const parsed = Number.parseInt(value, 10);
+    if (Number.isNaN(parsed) || parsed < 1) return 1;
+    return parsed;
+  };
+
+  const findQtyInput = (scope) => scope?.querySelector('.qty-input');
+
+  const readCart = () => {
+    try {
+      const raw = localStorage.getItem(PRODUCT_CART_KEY);
+      const cart = raw ? JSON.parse(raw) : [];
+      return Array.isArray(cart) ? cart : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const writeCart = (cart) => {
+    localStorage.setItem(PRODUCT_CART_KEY, JSON.stringify(cart));
+    window.dispatchEvent(new Event('cart:update'));
+  };
+
+  const syncLightboxImage = () => {
+    if (!lightboxImage || !images.length) return;
+
+    lightboxImage.src = images[activeImageIndex];
+    lightboxImage.alt = `${product.title}, image ${activeImageIndex + 1} of ${images.length}`;
+
+    if (lightboxCounter) {
+      lightboxCounter.textContent = `${activeImageIndex + 1} / ${images.length}`;
+    }
+  };
+
+  const updateGallery = (nextIndex) => {
+    if (!images.length || !mainImage) return;
+
+    activeImageIndex = ((nextIndex % images.length) + images.length) % images.length;
+    mainImage.src = images[activeImageIndex];
+    mainImage.alt = `${product.title}, image ${activeImageIndex + 1} of ${images.length}`;
+
+    if (counter) counter.textContent = `${activeImageIndex + 1} / ${images.length}`;
+    syncLightboxImage();
+
+    thumbButtons.forEach((button) => {
+      const isActive = Number(button.dataset.productThumb) === activeImageIndex;
+      button.setAttribute('aria-pressed', String(isActive));
+      button.classList.toggle('is-active', isActive);
+    });
+  };
+
+  thumbButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      updateGallery(Number(button.dataset.productThumb || 0));
+    });
+  });
+
+  prevButton?.addEventListener('click', () => updateGallery(activeImageIndex - 1));
+  nextButton?.addEventListener('click', () => updateGallery(activeImageIndex + 1));
+  lightboxPrevButton?.addEventListener('click', () => updateGallery(activeImageIndex - 1));
+  lightboxNextButton?.addEventListener('click', () => updateGallery(activeImageIndex + 1));
+
+  const openLightbox = () => {
+    if (!lightbox) return;
+
+    syncLightboxImage();
+    document.body.classList.add('product-lightbox-open');
+
+    if (typeof lightbox.showModal === 'function') {
+      lightbox.showModal();
+    } else {
+      lightbox.setAttribute('open', '');
+    }
+  };
+
+  const closeLightbox = () => {
+    if (!lightbox) return;
+
+    document.body.classList.remove('product-lightbox-open');
+
+    if (typeof lightbox.close === 'function') {
+      lightbox.close();
+    } else {
+      lightbox.removeAttribute('open');
+    }
+  };
+
+  fullscreenOpenButton?.addEventListener('click', openLightbox);
+  lightboxCloseButton?.addEventListener('click', closeLightbox);
+  lightbox?.addEventListener('click', (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  lightbox?.addEventListener('close', () => {
+    document.body.classList.remove('product-lightbox-open');
+  });
+
+  qtyWrap?.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-qty-down], [data-qty-up]');
+    if (!button) return;
+
+    const input = findQtyInput(qtyWrap);
+    const current = clampQty(input?.value || 1);
+    const delta = button.hasAttribute('data-qty-up') ? 1 : -1;
+    if (input) input.value = String(Math.max(1, current + delta));
+  });
+
+  findQtyInput(qtyWrap)?.addEventListener('change', (event) => {
+    event.target.value = String(clampQty(event.target.value));
+  });
+
+  addButton?.addEventListener('click', () => {
+    if (!product.id) return;
+
+    const qty = clampQty(findQtyInput(qtyWrap)?.value || 1);
+    const cart = readCart();
+    const existing = cart.find((item) => item.id === product.id);
+
+    if (existing) {
+      existing.qty = clampQty(existing.qty) + qty;
+    } else {
+      cart.push({
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        image: images[0],
+        qty,
+      });
+    }
+
+    writeCart(cart);
+
+    addButton.textContent = 'Added!';
+    window.setTimeout(() => {
+      addButton.textContent = 'Add to basket';
+    }, 900);
+  });
+</script>
