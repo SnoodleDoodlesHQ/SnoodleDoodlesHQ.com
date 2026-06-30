@@ -1,5 +1,5 @@
 ---
-title: Blue pencil day
+title: Farm
 description: Trying softer shapes and a slightly grumpier face.
 date: 2026-01-18
 type: image
