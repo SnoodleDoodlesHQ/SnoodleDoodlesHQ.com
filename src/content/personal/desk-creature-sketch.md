@@ -1,5 +1,5 @@
 ---
-title: Desk creature sketch
+title: Shitty walk
 description: A quick creature drawn between emails.
 date: 2026-01-06
 type: image
