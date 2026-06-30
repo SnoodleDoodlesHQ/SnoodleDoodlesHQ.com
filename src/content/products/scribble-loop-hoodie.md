@@ -1,5 +1,5 @@
 ---
-title: Cosmic Cat Hoodie
+title: ✩ Cosmic Cat Hoodie ✩
 category: apparel
 price: 60
 shortDescription: >-
