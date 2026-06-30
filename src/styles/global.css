@@ -738,6 +738,9 @@ h1,
   gap: 1rem;
   padding: 1.2rem clamp(1.2rem, 3vw, 2.2rem) 1.5rem;
   border-top: 2px solid var(--line);
+  background:
+    radial-gradient(circle at 12% 50%, rgba(0, 0, 0, 0.03), transparent 13rem),
+    rgba(255, 254, 250, 0.9);
   color: var(--muted);
   font-size: 0.92rem;
 }
@@ -2868,6 +2871,88 @@ video {
 }
 
 
+
+
+/* Temporary straight-alignment pass while the design is being refined. */
+.brand,
+.shop-button,
+.cart-link,
+h1,
+.scribble-title,
+.page-hero h1,
+.contact-form-heading h2,
+.checkout-card-heading h2,
+.personal-wall-heading h2,
+.shop-grid-heading h2,
+.portfolio-heading h2,
+.call-to-arms-heading,
+.call-to-arms-subtitle,
+.scribble-kicker,
+.landing-intro,
+.email-sketch,
+.scribble-list,
+.content-card,
+.portfolio-grid::before,
+.portfolio-grid::after,
+.portfolio-card,
+.portfolio-card-1,
+.portfolio-card-2,
+.portfolio-card-3,
+.portfolio-card-4,
+.portfolio-card-5,
+.portfolio-card-6,
+.call-to-arms-mail,
+.call-to-arms-social,
+.call-to-arms-social:nth-child(even),
+.call-to-arms-contact a,
+.call-to-arms-contact a:nth-child(even),
+.shop-filter-button,
+.shop-filter-button:nth-child(even),
+.shop-empty-state,
+.shop-hero-note,
+.shop-grid::before,
+.shop-grid::after,
+.shop-card,
+.product-main-image-wrap,
+.product-detail-info,
+.product-detail-info h1,
+.contact-side-card,
+.contact-form-sketch,
+.contact-submit-button,
+.personal-grid::before,
+.personal-grid::after,
+.personal-card,
+.personal-card-1,
+.personal-card-2,
+.personal-card-3,
+.personal-card-4,
+.personal-card-5,
+.personal-card-6,
+.checkout-review-card,
+.checkout-summary-card,
+.checkout-paypal-button,
+.about-profile-image-wrap,
+.about-full-bio-image-wrap {
+  transform: none;
+}
+
+.site-nav a::after {
+  transform: scaleX(0);
+}
+
+.site-nav a:hover::after,
+.site-nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.portfolio-card:hover,
+.shop-card:hover,
+.shop-card:focus-visible,
+.shop-card:focus-within,
+.personal-card:hover,
+.personal-card:focus-within {
+  transform: translateY(-4px) scale(1.012);
+}
 
 
 /* About page action links: bio text -> PDF download -> mailto */
